@@ -53,7 +53,7 @@
       scene.add(light);
 
       var cube = new THREE.Mesh( new THREE.BoxGeometry( 10, 10, 10 ), new THREE.MeshLambertMaterial( {color: 0x8888ff} ) );
-	  cube.position.y = -50;
+	  cube.position.set(-100,50,-50);
       scene.add(cube);
 
       // Add OrbitControls so that we can pan around with the mouse.

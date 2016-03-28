@@ -142,11 +142,44 @@ var scene,
         floor.rotation.x = -Math.PI / 2;
         scene.add(floor);
         
-        var sphereGeometry = new THREE.SphereGeometry( 50, 32, 16 ); 
+        
+        
+        
+        
+        
+        function CustomObject() {
+
+            this.type = 'CustomObject';
+
+            this.geometry = new THREE.BoxGeometry( 540, 540, 14 );
+            this.material = new THREE.MeshLambertMaterial( { color: 0xff0000 } );
+
+            THREE.Mesh.call( this, this.geometry, this.material );
+
+        }
+
+        CustomObject.prototype = Object.create( THREE.Mesh.prototype );
+        CustomObject.prototype.constructor = CustomObject;
+
+        CustomObject.prototype.getMesh = function() {
+
+            return this.mesh;
+
+        }
+
+        var foo = new CustomObject();
+        foo.position.set(100,50,-50);
+        scene.add( foo );
+        
+        
+        
+        
+        
+        /*var sphereGeometry = new THREE.SphereGeometry( 50, 32, 16 ); 
 	    var sphereMaterial = new THREE.MeshLambertMaterial( {color: 0x8888ff} ); 
 	    var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 	    sphere.position.set(100, 50, -50);
-	    scene.add(sphere);
+	    scene.add(sphere);*/
 
         clock = new THREE.Clock();
 

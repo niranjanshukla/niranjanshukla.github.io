@@ -52,28 +52,9 @@
       light.position.set(-100,200,100);
       scene.add(light);
 
-      function CustomObject() {
-
-        this.type = 'CustomObject';
-
-        this.geometry = new THREE.BoxGeometry( 540, 540, 14 );
-        this.material = new THREE.MeshLambertMaterial( { color: 0xff0000 } );
-
-        THREE.Mesh.call( this, this.geometry, this.material );
-
-      }
-
-        CustomObject.prototype = Object.create( THREE.Mesh.prototype );
-        CustomObject.prototype.constructor = CustomObject;
-
-        CustomObject.prototype.getMesh = function() {
-
-            return this.mesh;
-
-        }
-
-        var foo = new CustomObject();
-        scene.add( foo );
+      var cube = new THREE.Mesh( new THREE.BoxGeometry( 200, 200, 200 ), new THREE.MeshNormalMaterial() );
+	  cube.position.y = 150;
+      scene.add(cube);
 
       // Add OrbitControls so that we can pan around with the mouse.
       controls = new THREE.OrbitControls(camera, renderer.domElement);

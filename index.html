@@ -72,72 +72,188 @@ var scene,
           container,
           effect,
           controls,
-          clock;
+          clock,
+
+          lastColorRange = [0, 0.3],
+          currentColorRange = [0, 0.3],
+
+          // City and weather API set up
+          cities = [['Sydney', '2147714'], ['New York', '5128638'], ['Tokyo', '1850147'], ['London', '2643743'], ['Mexico City', '3530597'], ['Miami', '4164138'], ['San Francisco', '5391959'], ['Rome', '3169070']],
+          cityWeather = {},
+          cityTimes = [],
+          currentCity = 0,
+          currentCityText = new THREE.TextGeometry(),
+          currentCityTextMesh = new THREE.Mesh();
+
+      init();
+
+      function init() {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.001, 700);
+        camera.position.set(0, 15, 0);
+        scene.add(camera);
+
+        renderer = new THREE.WebGLRenderer();
+        element = renderer.domElement;
+        container = document.getElementById('rev');
+        container.appendChild(element);
+
+        effect = new THREE.StereoEffect(renderer);
+
+        // Our initial control fallback with mouse/touch events in case DeviceOrientation is not enabled
+        controls = new THREE.OrbitControls(camera, element);
+        controls.target.set(
+          camera.position.x + 0.15,
+          camera.position.y,
+          camera.position.z
+        );
+        controls.noPan = true;
+        controls.noZoom = true;
+
+        // Our preferred controls via DeviceOrientation
+        function setOrientationControls(e) {
+          if (!e.alpha) {
+            return;
+          }
+
+          controls = new THREE.DeviceOrientationControls(camera, true);
+          controls.connect();
+          controls.update();
+
+          element.addEventListener('click', fullscreen, false);
+
+          window.removeEventListener('deviceorientation', setOrientationControls, true);
+        }
+        window.addEventListener('deviceorientation', setOrientationControls, true);
+
+        var cube = new THREE.Mesh( new THREE.BoxGeometry( 50, 50, 50 ), new THREE.MeshLambertMaterial( {color: 0x8888ff} ) );
+	    cube.position.set(-100,-50,-50);
+        scene.add(cube);
+        
+        clock = new THREE.Clock();
+
+        animate();
+      }
+
       
-      
-    init();
-    animate();
 
-    // Sets up the scene.
-    function init() {
+      function lookupTimezones(t, len) {
+        var tz = new TimeZoneDB;
+        
+        tz.getJSON({
+            key: "GPH4A5Q6NGI1",
+            lat: cityWeather[t].coord.lat,
+            lng: cityWeather[t].coord.lon
+        }, function(timeZone){
+            cityTimes.push(new Date(timeZone.timestamp * 1000));
 
-      // Create the scene and set the scene size.
-      scene = new THREE.Scene();
-      var WIDTH = window.innerWidth,
-          HEIGHT = window.innerHeight;
+            t++;
+            if (t < len) lookupTimezones(t, len);
+            else applyWeatherConditions();
+        });
+      }
 
-      // Create a renderer and add it to the DOM.
-      renderer = new THREE.WebGLRenderer({antialias:true});
-      renderer.setSize(WIDTH, HEIGHT);
-      document.body.appendChild(renderer.domElement);
+      function applyWeatherConditions() {
+        displayCurrentCityName(cities[currentCity][0]);
 
-      // Create a camera, zoom it out from the model a bit, and add it to the scene.
-      camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
-      camera.position.set(0,6,0);
-      scene.add(camera);
+        var info = cityWeather[currentCity];
 
-      // Create an event listener that resizes the renderer with the browser window.
-      window.addEventListener('resize', function() {
-        var WIDTH = window.innerWidth,
-            HEIGHT = window.innerHeight;
-        renderer.setSize(WIDTH, HEIGHT);
-        camera.aspect = WIDTH / HEIGHT;
+        var timeThere = cityTimes[currentCity] ? cityTimes[currentCity].getUTCHours() : 0,
+            isDay = timeThere >= 6 && timeThere <= 18;
+
+        if (isDay) {
+          switch (info.weather[0].main) {
+            case 'Clouds':
+              currentColorRange = [0, 0.01];
+              break;
+            case 'Rain':
+              currentColorRange = [0.7, 0.1];
+              break;
+            case 'Clear':
+            default:
+              currentColorRange = [0.6, 0.7];
+              break;
+          }
+        } else {
+          currentColorRange = [0.69, 0.6];
+        }
+
+        if (currentCity < cities.length-1) currentCity++;
+        else currentCity = 0;
+
+        setTimeout(applyWeatherConditions, 5000);
+      }
+
+      function displayCurrentCityName(name) {
+        scene.remove(currentCityTextMesh);
+
+        currentCityText = new THREE.TextGeometry(name, {
+          size: 4,
+          height: 1
+        });
+        currentCityTextMesh = new THREE.Mesh(currentCityText, new THREE.MeshBasicMaterial({
+          color: 0xffffff, opacity: 1
+        }));
+
+        currentCityTextMesh.position.y = 10;
+        currentCityTextMesh.position.z = 20;
+        currentCityTextMesh.rotation.x = 0;
+        currentCityTextMesh.rotation.y = -180;
+
+        scene.add(currentCityTextMesh);
+      }
+
+      function animate() {
+        var elapsedSeconds = clock.getElapsedTime();
+
+        // We check if the color range has changed, if so, we'll change the colours
+        if (lastColorRange[0] != currentColorRange[0] && lastColorRange[1] != currentColorRange[1]) {
+
+          lastColorRange = currentColorRange;
+        }
+
+        requestAnimationFrame(animate);
+
+        update(clock.getDelta());
+        render(clock.getDelta());
+      }
+
+      function resize() {
+        var width = container.offsetWidth;
+        var height = container.offsetHeight;
+
+        camera.aspect = width / height;
         camera.updateProjectionMatrix();
-      });
 
-      // Set the background color of the scene.
-      renderer.setClearColor(0x333F47, 1);
+        renderer.setSize(width, height);
+        effect.setSize(width, height);
+      }
 
-      // Create a light, set its position, and add it to the scene.
-      var light = new THREE.PointLight(0xffffff);
-      light.position.set(-100,200,100);
-      scene.add(light);
+      function update(dt) {
+        resize();
 
-      // Load in the mesh and add it to the scene.
-      var loader = new THREE.JSONLoader();
-      loader.load( "models/treehouse_logo.js", function(geometry){
-        var material = new THREE.MeshLambertMaterial({color: 0x55B663});
-        mesh = new THREE.Mesh(geometry, material);
-        scene.add(mesh);
-      });
+        camera.updateProjectionMatrix();
 
-      // Add OrbitControls so that we can pan around with the mouse.
-      controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.update(dt);
+      }
 
-    }
+      function render(dt) {
+        effect.render(scene, camera);
+      }
 
-
-    // Renders the scene and updates the render as needed.
-    function animate() {
-
-      // Read more about requestAnimationFrame at http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
-      requestAnimationFrame(animate);
+      function fullscreen() {
+        if (container.requestFullscreen) {
+          container.requestFullscreen();
+        } else if (container.msRequestFullscreen) {
+          container.msRequestFullscreen();
+        } else if (container.mozRequestFullScreen) {
+          container.mozRequestFullScreen();
+        } else if (container.webkitRequestFullscreen) {
+          container.webkitRequestFullscreen();
+        }
+      }
       
-      // Render the scene.
-      renderer.render(scene, camera);
-      controls.update();
-
-    }
+      
 
         
 

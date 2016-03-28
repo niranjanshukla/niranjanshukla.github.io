@@ -1,0 +1,147 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="./three.min.js"></script>
+    <script src="./DeviceOrientationControls.js"></script>
+    <script src="./OrbitControls.js"></script>
+    <script src="./StereoEffect.js"></script>
+    <script src="./helvetiker_regular.typeface.js"></script>
+    <script src="https://timezonedb.googlecode.com/files/timezonedb.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <!-- Plotly chart will be drawn inside this DIV -->
+    <div id="rev" style="width:100%;height:100%"></div>
+    <script>
+        var data = [
+  {
+    z: [[0,0,0,1.44],
+    [1.49,1.92,2.28,2.11],
+    [2.42,2.37,2.77,2.26],
+    [2.22,2.31,2.5,1.91],
+    [2.18,2.18,2.5,2.06],
+    [2.16,2.27,2.64,2.2],
+    [2.17,2.48,2.61,2.34],
+    [2.26,2.68,2.8,2.51],
+    [2.4,2.99,3.02,2.84],
+    [2.9,3.49,3.56,3.15],
+    [3.31,3.72,3.86,3.47],
+    [3.61,4.01,4.19,3.82],
+    [3.93,4.38,4.66,4.34],
+    [4.54,5.09,5.43,4.59],
+    [4.44,4.71,4.8,4.41],
+    [4.73,5.08,5.18,4.84],
+    [5.08,5.77,6.08,5.73],
+    [5.85,6.47,6.67,5.96],
+    [6.19,6.7,6.97,6.43],
+    [6.97,7.43,7.98,7.38],
+    [7.46,7.78,8.41,7.69]],
+    type: 'surface',
+    colorscale: [[0, "rgb(231, 245, 255)"], [1, "rgb(31, 119, 180)"]],
+    showscale: false
+  }
+],
+layout = {
+  title: 'Nike revenue',
+  autosize: false,
+  width: 1600,
+  height: 1100,
+  margin: {
+    l: 20,
+    r: 20,
+    b: 60,
+    t: 60
+  },
+  center: {
+      x:0,
+      y:0,
+      z:0
+  }
+};
+
+//Plotly.newPlot('rev', data, layout);
+
+var scene,
+          camera, 
+          renderer,
+          element,
+          container,
+          effect,
+          controls,
+          clock;
+      
+      
+    init();
+    animate();
+
+    // Sets up the scene.
+    function init() {
+
+      // Create the scene and set the scene size.
+      scene = new THREE.Scene();
+      var WIDTH = window.innerWidth,
+          HEIGHT = window.innerHeight;
+
+      // Create a renderer and add it to the DOM.
+      renderer = new THREE.WebGLRenderer({antialias:true});
+      renderer.setSize(WIDTH, HEIGHT);
+      document.body.appendChild(renderer.domElement);
+
+      // Create a camera, zoom it out from the model a bit, and add it to the scene.
+      camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
+      camera.position.set(0,6,0);
+      scene.add(camera);
+
+      // Create an event listener that resizes the renderer with the browser window.
+      window.addEventListener('resize', function() {
+        var WIDTH = window.innerWidth,
+            HEIGHT = window.innerHeight;
+        renderer.setSize(WIDTH, HEIGHT);
+        camera.aspect = WIDTH / HEIGHT;
+        camera.updateProjectionMatrix();
+      });
+
+      // Set the background color of the scene.
+      renderer.setClearColor(0x333F47, 1);
+
+      // Create a light, set its position, and add it to the scene.
+      var light = new THREE.PointLight(0xffffff);
+      light.position.set(-100,200,100);
+      scene.add(light);
+
+      // Load in the mesh and add it to the scene.
+      var loader = new THREE.JSONLoader();
+      loader.load( "models/treehouse_logo.js", function(geometry){
+        var material = new THREE.MeshLambertMaterial({color: 0x55B663});
+        mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+      });
+
+      // Add OrbitControls so that we can pan around with the mouse.
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+    }
+
+
+    // Renders the scene and updates the render as needed.
+    function animate() {
+
+      // Read more about requestAnimationFrame at http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+      requestAnimationFrame(animate);
+      
+      // Render the scene.
+      renderer.render(scene, camera);
+      controls.update();
+
+    }
+
+        
+
+    </script>
+</body>
+
+</html>

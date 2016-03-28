@@ -52,7 +52,7 @@
       light.position.set(-100,200,100);
       scene.add(light);
 
-      var cube = new THREE.Mesh( new THREE.BoxGeometry( 200, 200, 200 ), new THREE.MeshNormalMaterial() );
+      var cube = new THREE.Mesh( new THREE.BoxGeometry( 200, 200, 200 ), new THREE.MeshLambertMaterial( {color: 0x8888ff} ) );
 	  cube.position.y = 150;
       scene.add(cube);
 

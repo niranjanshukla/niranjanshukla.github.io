@@ -13,7 +13,9 @@
 
 <body>
     <!-- Plotly chart will be drawn inside this DIV -->
-    <div id="rev" style="width:100%;height:100%"></div>
+    <div id="webglrenderer" style="width:100%;height:100%">
+        <div id="rev" style="width:80%;height:80%"/>
+    </div>
     <script>
         var data = [
   {
@@ -61,7 +63,7 @@ layout = {
   }
 };
 
-//Plotly.newPlot('rev', data, layout);
+Plotly.newPlot('rev', data, layout);
 
 var scene,
           camera, 
@@ -82,7 +84,7 @@ var scene,
 
         renderer = new THREE.WebGLRenderer();
         element = renderer.domElement;
-        container = document.getElementById('rev');
+        container = document.getElementById('webglrenderer');
         container.appendChild(element);
 
         effect = new THREE.StereoEffect(renderer);

@@ -145,7 +145,7 @@ var scene,
         
         Plotly.newPlot('rev', data, layout);
         elem = document.getElementById('rev');
-        var cssObject = new THREE.CSS3DObject(\elem);
+        var cssObject = new THREE.CSS3DObject(elem);
         cssObject.position = floor.position;
         cssObject.rotation = floor.rotation;
         scene.add(cssObject);

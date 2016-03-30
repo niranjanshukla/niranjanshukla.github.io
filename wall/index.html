@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Connecting up Google Cardboard to web APIs</title>
+    <title>Revenue growth with rock-climbing</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
@@ -200,21 +200,11 @@
 
       function animate() {
         var elapsedSeconds = clock.getElapsedTime();
-        
-        /*var v = pointGeo.vertices;
-        for (var i = 0; i < v.length; i++) {
-                    var u = v[i];
-                    console.log(u)
-                    u.angle += u.speed * 0.01;
-                    u.x = Math.cos(u.angle) * u.radius;
-                    u.z = Math.sin(u.angle) * u.radius;
-        }
-        pointGeo.__dirtyVertices = true;*/
-
         requestAnimationFrame(animate);
         raycaster.setFromCamera( new THREE.Vector3(), camera );
         var intersects = raycaster.intersectObjects( rockholds );
         if ( intersects.length > 0 ) {
+            text2.innerHTML = "";
             text2.innerHTML = "Nike's revenue data";
         }
     

@@ -43,6 +43,7 @@
           pointGeo,
           raycaster,
           mouse,
+          text2,
           rockholds = [];
           
     var w = 300;
@@ -62,7 +63,17 @@
         camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.001, 700);
         camera.position.set(0, -30, 0);
         scene.add(camera);
-        //scene2.add(camera);    
+        //scene2.add(camera);
+        
+        text2 = document.createElement('div');
+        text2.style.position = 'absolute';
+        text2.style.width = 40;
+        text2.style.height = 30;
+        text2.style.backgroundColor = "orange";
+        text2.style.top = 0 + 'px';
+        text2.style.right = 0 + 'px';
+        text2.innerHTML = "placeholder";
+        document.body.appendChild(text2);        
 
         renderer = new THREE.WebGLRenderer();
         renderer.autoClear = false;
@@ -204,7 +215,7 @@
         raycaster.setFromCamera( new THREE.Vector3(), camera );
         var intersects = raycaster.intersectObjects( rockholds );
         if ( intersects.length > 0 ) {
-            alert('rockhold');
+            text2.innerHTML = "Nike's revenue data";
         }
     
       

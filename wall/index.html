@@ -1,53 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <title>Connecting up Google Cardboard to web APIs</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
-      body {
-        margin: 0px;
-        overflow: hidden;
-      }
-      #webglviewer {
-        bottom: 0;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
+        body {
+            margin: 0px;
+            overflow: hidden;
+        }
+        
+        #webglviewer {
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <div id="webglviewer"></div>
 
     <script src="./js/three.min.js"></script>
     <script src="./js/StereoEffect.js"></script>
     <script src="./js/DeviceOrientationControls.js"></script>
     <script src="./js/OrbitControls.js"></script>
+    <script src="./js/d3.v3.min.js"></script>
 
     <script>
-      var scene,
+        var scene,
+          scene2,
           camera, 
           renderer,
           element,
           container,
           effect,
           controls,
-          clock;
+          clock,
+          pointGeo,
+          raycaster,
+          mouse;
+          
+    var w = 300;
+    var h = 300;
+          
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;    
 
       init();
 
       function init() {
+        raycaster = new THREE.Raycaster();
+        mouse = new THREE.Vector2();
         scene = new THREE.Scene();
+        scene2 = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.001, 700);
-        camera.position.set(0, 15, 0);
+        camera.position.set(0, -30, 0);
         scene.add(camera);
+        //scene2.add(camera);    
 
         renderer = new THREE.WebGLRenderer();
+        renderer.autoClear = false;
         element = renderer.domElement;
         container = document.getElementById('webglviewer');
         container.appendChild(element);
+        
+        
+    var scatterPlot = new THREE.Object3D();
+    scene.add(scatterPlot);
+    scatterPlot.rotation.z = 50;
+    function v(x, y, z) {
+        return new THREE.Vector3(x, y, z);
+    }
+    var unfiltered = [];
+    var format = d3.format("+.3f");
+    var data = d3.csv("./data/nike_rev.csv", function (d) {
+
+        d.forEach(function (d,i) {
+            unfiltered[i] = {
+                x: +d.Year,
+                y: +d.Revenue,
+                z: 0
+            };
+            
+        })
+    var xExent = d3.extent(unfiltered, function (d) {return d.x; }),
+        yExent = d3.extent(unfiltered, function (d) {return d.y; }),
+        zExent = d3.extent(unfiltered, function (d) {return d.z; });
+    var vpts = {
+        xMax: xExent[1],
+        xCen: (xExent[1] + xExent[0]) / 2,
+        xMin: xExent[0],
+        yMax: yExent[1],
+        yCen: (yExent[1] + yExent[0]) / 2,
+        yMin: yExent[0],
+        zMax: zExent[1],
+        zCen: (zExent[1] + zExent[0]) / 2,
+        zMin: zExent[0]
+    }
+    var colour = d3.scale.category20c();
+    var xScale = d3.scale.linear()
+                  .domain(xExent)
+                  .range([-50,50]);
+    var yScale = d3.scale.linear()
+                  .domain(yExent)
+                  .range([-50,50]);
+    var zScale = d3.scale.linear()
+                  .domain(zExent)
+                  .range([-50,50]);
+
+    
+    var mat = new THREE.PointCloudMaterial({
+        vertexColors: true,
+        size: 10,
+        map: THREE.ImageUtils.loadTexture('./img/gray_circle_1995.png')
+    });
+   
+    var pointCount = unfiltered.length;
+    pointGeo = new THREE.Geometry();
+    console.log(pointCount);
+    for (var i = 0; i < pointCount; i ++) {
+        var x = xScale(unfiltered[i].x);
+        var y = yScale(unfiltered[i].y);
+        var z = zScale(unfiltered[i].z);
+        pointGeo.vertices.push(new THREE.Vector3(x, y, z));
+        console.log(pointGeo.vertices);
+        pointGeo.colors.push(new THREE.Color().setRGB(
+          hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255
+        ));
+    }
+    var points = new THREE.PointCloud(pointGeo, mat);
+    scatterPlot.add(points);
+    //renderer.render(scene2, camera);        
+        
+    }); 
 
         effect = new THREE.StereoEffect(renderer);
 
@@ -77,35 +167,6 @@
         }
         window.addEventListener('deviceorientation', setOrientationControls, true);
 
-        // Lighting
-        /*var light = new THREE.PointLight(0x999999, 2, 100);
-        light.position.set(50, 50, 50);
-        scene.add(light);
-
-        var lightScene = new THREE.PointLight(0x999999, 2, 100);
-        lightScene.position.set(0, 5, 0);
-        scene.add(lightScene);
-
-        var floorTexture = THREE.ImageUtils.loadTexture('./textures/wood.jpg');
-        floorTexture.wrapS = THREE.RepeatWrapping;
-        floorTexture.wrapT = THREE.RepeatWrapping;
-        floorTexture.repeat = new THREE.Vector2(50, 50);
-        floorTexture.anisotropy = renderer.getMaxAnisotropy();
-
-        var floorMaterial = new THREE.MeshPhongMaterial({
-          color: 0xffffff,
-          specular: 0xffffff,
-          shininess: 20,
-          shading: THREE.FlatShading,
-          map: floorTexture
-        });
-
-        var geometry = new THREE.PlaneBufferGeometry(1000, 1000);
-
-        var floor = new THREE.Mesh(geometry, floorMaterial);
-        floor.rotation.x = -Math.PI / 2;
-        scene.add(floor);*/
-        
             // creation of a big sphere geometry
 			var sphere = new THREE.SphereGeometry(100, 100, 40);
 			sphere.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
@@ -126,8 +187,26 @@
 
       function animate() {
         var elapsedSeconds = clock.getElapsedTime();
+        
+        /*var v = pointGeo.vertices;
+        for (var i = 0; i < v.length; i++) {
+                    var u = v[i];
+                    console.log(u)
+                    u.angle += u.speed * 0.01;
+                    u.x = Math.cos(u.angle) * u.radius;
+                    u.z = Math.sin(u.angle) * u.radius;
+        }
+        pointGeo.__dirtyVertices = true;*/
 
-      requestAnimationFrame(animate);
+        requestAnimationFrame(animate);
+        
+        raycaster.setFromCamera( new THREE.Vector2(), camera );
+        var intersects = raycaster.intersectObjects( pointGeo );
+        if ( intersects.length > 0 ) {
+            alert('rockhold');
+        }
+    
+      
 
         update(clock.getDelta());
         render(clock.getDelta());
@@ -146,9 +225,7 @@
 
       function update(dt) {
         resize();
-
         camera.updateProjectionMatrix();
-
         controls.update(dt);
       }
 
@@ -167,6 +244,16 @@
           container.webkitRequestFullscreen();
         }
       }
+      
+      function hexToRgb(hex) { //TODO rewrite with vector output
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+      }
     </script>
-  </body>
+</body>
+
 </html>

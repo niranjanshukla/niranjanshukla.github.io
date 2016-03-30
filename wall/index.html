@@ -42,7 +42,8 @@
           clock,
           pointGeo,
           raycaster,
-          mouse;
+          mouse,
+          rockholds = [];
           
     var w = 300;
     var h = 300;
@@ -122,7 +123,7 @@
    
     var pointCount = unfiltered.length;
     pointGeo = new THREE.Geometry();
-    console.log(pointCount);
+    //console.log(pointCount);
     for (var i = 0; i < pointCount; i ++) {
         var x = xScale(unfiltered[i].x);
         var y = yScale(unfiltered[i].y);
@@ -132,8 +133,9 @@
         pointGeo.colors.push(new THREE.Color().setRGB(
           hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255
         ));
-    }
+        }
     var points = new THREE.PointCloud(pointGeo, mat);
+    rockholds.push(points);
     scatterPlot.add(points);
     //renderer.render(scene2, camera);        
         
@@ -199,9 +201,8 @@
         pointGeo.__dirtyVertices = true;*/
 
         requestAnimationFrame(animate);
-        
-        raycaster.setFromCamera( new THREE.Vector2(), camera );
-        var intersects = raycaster.intersectObjects( pointGeo );
+        raycaster.setFromCamera( new THREE.Vector3(), camera );
+        var intersects = raycaster.intersectObjects( rockholds );
         if ( intersects.length > 0 ) {
             alert('rockhold');
         }

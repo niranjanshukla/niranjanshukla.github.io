@@ -126,10 +126,13 @@
                   .range([-50,50]);
 
 
-    var mat = new THREE.PointCloudMaterial({
+    /*var mat = new THREE.PointCloudMaterial({
         vertexColors: true,
         size: 0.6,
-        color: "blue"
+        color: 0xe6f7ff
+    });*/
+    var mat = new THREE.PointCloudMaterial({
+      color: 0xe6f7ff
     });
 
     var pointCount = unfiltered.length;

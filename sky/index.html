@@ -199,8 +199,6 @@
 
         clock = new THREE.Clock();
 
-        animate();
-
         setInterval(function () {
                 // create an helper
                 var helper = new THREE.BoundingBoxHelper(cube);
@@ -217,6 +215,10 @@
                 camera.fov = fov;
                 camera.updateProjectionMatrix();
             }, 5000);
+
+        animate();
+
+
       }
 
 

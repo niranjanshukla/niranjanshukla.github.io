@@ -132,12 +132,11 @@
         color: 0xe6f7ff
     });*/
     var mat = new THREE.PointCloudMaterial({
-      size: 0.8,
-      color: 0x1a75ff
+      color: 0xb3d1ff
     });
 
     var pointCount = unfiltered.length;
-    pointGeo = new THREE.Geometry();
+    pointGeo = new THREE.CircleGeometry(0.6);
     //console.log(pointCount);
     for (var i = 0; i < pointCount; i ++) {
         var x = xScale(unfiltered[i].x);

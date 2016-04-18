@@ -201,7 +201,7 @@
         animate();
 
         setInterval(function(){
-          var helper = new THREE.BoundingBoxHelper(pointGeo.vertices[0]);
+          var helper = new THREE.BoundingBoxHelper(points);
           helper.update();
           // get the bounding sphere
           var boundingSphere = helper.box.getBoundingSphere();

@@ -197,7 +197,7 @@
 			scene.add(sphereMesh);
 
         clock = new THREE.Clock();
-
+        animate();
         setInterval(function () {
                 // create an helper
                 var helper = new THREE.BoundingBoxHelper(pointGeo.vertices[0]);
@@ -215,7 +215,7 @@
                 camera.updateProjectionMatrix();
             }, 5000);
 
-        animate();
+
 
 
       }

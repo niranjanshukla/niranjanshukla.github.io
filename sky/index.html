@@ -199,6 +199,22 @@
         clock = new THREE.Clock();
 
         animate();
+
+        setInterval(function(){
+          var helper = new THREE.BoundingBoxHelper(pointGeo.vertices[0]);
+          helper.update();
+          // get the bounding sphere
+          var boundingSphere = helper.box.getBoundingSphere();
+          // calculate the distance from the center of the sphere
+          // and subtract the radius to get the real distance.
+          var center = boundingSphere.center;
+          var radius = boundingSphere.radius;
+          var distance = center.distanceTo(camera.position) - radius;
+          var realHeight = Math.abs(helper.box.max.y - helper.box.min.y);
+          var fov = 2 * Math.atan(realHeight * control.correctForDepth / ( 2 * distance )) * ( 180 / Math.PI );
+          camera.fov = fov;
+          camera.updateProjectionMatrix();
+        },5000);
       }
 
 

@@ -201,7 +201,7 @@
 
         setInterval(function () {
                 // create an helper
-                var helper = new THREE.BoundingBoxHelper(cube);
+                var helper = new THREE.BoundingBoxHelper(points);
                 helper.update();
                 // get the bounding sphere
                 var boundingSphere = helper.box.getBoundingSphere();

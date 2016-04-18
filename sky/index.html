@@ -127,7 +127,9 @@
 
 
     var mat = new THREE.PointCloudMaterial({
-        size: 0.6
+        vertexColors: true,
+        size: 15,
+        map: THREE.ImageUtils.loadTexture('./img/star.png')
     });
 
     var pointCount = unfiltered.length;

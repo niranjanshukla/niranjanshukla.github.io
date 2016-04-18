@@ -127,7 +127,7 @@
 
 
     var mat = new THREE.PointCloudMaterial({
-        vertexColors: false,
+        vertexColors: true,
         size: 2,
         map: THREE.ImageUtils.loadTexture('./img/star.png')
     });
@@ -141,9 +141,9 @@
         var z = zScale(unfiltered[i].z);
         pointGeo.vertices.push(new THREE.Vector3(x, y, z));
         console.log(pointGeo.vertices);
-        pointGeo.colors.push(new THREE.Color().setRGB(
+        /*pointGeo.colors.push(new THREE.Color().setRGB(
           hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255
-        ));
+        ));*/
         }
     var points = new THREE.PointCloud(pointGeo, mat);
     rockholds.push(points);

@@ -44,7 +44,8 @@
           raycaster,
           mouse,
           text2,
-          rockholds = [];
+          rockholds = [],
+          starMesh = [];
 
     var w = 300;
     var h = 300;
@@ -138,12 +139,19 @@
 
     var pointCount = unfiltered.length;
     pointGeo = new THREE.Geometry();
+
+    var starGeometry = new THREE.Geometry();
+    var starMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
     //console.log(pointCount);
     for (var i = 0; i < pointCount; i ++) {
         var x = xScale(unfiltered[i].x);
         var y = yScale(unfiltered[i].y);
         var z = zScale(unfiltered[i].z);
         pointGeo.vertices.push(new THREE.Vector3(x, y, z));
+
+        starGeometry.vertices.push(new THREE.Vector3(x,y,z));
+        starMesh.push(new THREE.mesh(starGeometry, starMaterial));
+        starGeometry = new THREE.Geometry();
         console.log(pointGeo.vertices);
         pointGeo.colors.push(new THREE.Color().setRGB(
           hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255
@@ -200,7 +208,7 @@
         animate();
         setInterval(function () {
                 // create an helper
-                var helper = new THREE.BoundingBoxHelper(pointGeo.vertices[0]);
+                var helper = new THREE.BoundingBoxHelper(starMesh[0]);
                 helper.update();
                 // get the bounding sphere
                 var boundingSphere = helper.box.getBoundingSphere();

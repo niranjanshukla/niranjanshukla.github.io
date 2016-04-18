@@ -201,11 +201,7 @@
 
         animate();
 
-        control = new function () {
-            this.correctForDepth = 1.3;
-            this.rotationSpeed = 0.01;
-            this.scale = 1;
-            this.updateCamera = function () {
+        setInterval(function () {
                 // create an helper
                 var helper = new THREE.BoundingBoxHelper(cube);
                 helper.update();
@@ -217,12 +213,10 @@
                 var radius = boundingSphere.radius;
                 var distance = center.distanceTo(camera.position) - radius;
                 var realHeight = Math.abs(helper.box.max.y - helper.box.min.y);
-                var fov = 2 * Math.atan(realHeight * control.correctForDepth / ( 2 * distance )) * ( 180 / Math.PI );
+                var fov = 2 * Math.atan(realHeight * 1.3 / ( 2 * distance )) * ( 180 / Math.PI );
                 camera.fov = fov;
                 camera.updateProjectionMatrix();
-            }
-        };
-        addControls(control);
+            }, 5000);
       }
 
 

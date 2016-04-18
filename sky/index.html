@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Revenue growth with stargazing</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            margin: 0px;
+            overflow: hidden;
+        }
+
+        #webglviewer {
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="webglviewer"></div>
+
+    <script src="./js/three.min.js"></script>
+    <script src="./js/StereoEffect.js"></script>
+    <script src="./js/DeviceOrientationControls.js"></script>
+    <script src="./js/OrbitControls.js"></script>
+    <script src="./js/d3.v3.min.js"></script>
+
+    <script>
+        var scene,
+          scene2,
+          camera,
+          renderer,
+          element,
+          container,
+          effect,
+          controls,
+          clock,
+          pointGeo,
+          raycaster,
+          mouse,
+          text2,
+          rockholds = [];
+
+    var w = 300;
+    var h = 300;
+
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+      init();
+
+      function init() {
+        raycaster = new THREE.Raycaster();
+        mouse = new THREE.Vector2();
+        scene = new THREE.Scene();
+        scene2 = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.001, 700);
+        camera.position.set(0, -30, 0);
+        scene.add(camera);
+        //scene2.add(camera);
+
+        text2 = document.createElement('div');
+        text2.style.position = 'absolute';
+        text2.style.width = 40;
+        text2.style.height = 30;
+        text2.style.backgroundColor = "orange";
+        text2.style.top = 0 + 'px';
+        text2.style.right = 0 + 'px';
+        text2.innerHTML = "placeholder";
+        document.body.appendChild(text2);
+
+        renderer = new THREE.WebGLRenderer();
+        renderer.autoClear = false;
+        element = renderer.domElement;
+        container = document.getElementById('webglviewer');
+        container.appendChild(element);
+
+
+    var scatterPlot = new THREE.Object3D();
+    scene.add(scatterPlot);
+    scatterPlot.rotation.z = 50;
+    function v(x, y, z) {
+        return new THREE.Vector3(x, y, z);
+    }
+    var unfiltered = [];
+    var format = d3.format("+.3f");
+    var data = d3.csv("./data/nike_rev.csv", function (d) {
+
+        d.forEach(function (d,i) {
+            unfiltered[i] = {
+                x: +d.Year,
+                y: +d.Revenue,
+                z: 0
+            };
+
+        })
+    var xExent = d3.extent(unfiltered, function (d) {return d.x; }),
+        yExent = d3.extent(unfiltered, function (d) {return d.y; }),
+        zExent = d3.extent(unfiltered, function (d) {return d.z; });
+    var vpts = {
+        xMax: xExent[1],
+        xCen: (xExent[1] + xExent[0]) / 2,
+        xMin: xExent[0],
+        yMax: yExent[1],
+        yCen: (yExent[1] + yExent[0]) / 2,
+        yMin: yExent[0],
+        zMax: zExent[1],
+        zCen: (zExent[1] + zExent[0]) / 2,
+        zMin: zExent[0]
+    }
+    var colour = d3.scale.category20c();
+    var xScale = d3.scale.linear()
+                  .domain(xExent)
+                  .range([-50,50]);
+    var yScale = d3.scale.linear()
+                  .domain(yExent)
+                  .range([-50,50]);
+    var zScale = d3.scale.linear()
+                  .domain(zExent)
+                  .range([-50,50]);
+
+
+    var mat = new THREE.PointCloudMaterial({
+        vertexColors: true,
+        size: 10,
+        map: THREE.ImageUtils.loadTexture('./img/gray_circle_1995.png')
+    });
+
+    var pointCount = unfiltered.length;
+    pointGeo = new THREE.Geometry();
+    //console.log(pointCount);
+    for (var i = 0; i < pointCount; i ++) {
+        var x = xScale(unfiltered[i].x);
+        var y = yScale(unfiltered[i].y);
+        var z = zScale(unfiltered[i].z);
+        pointGeo.vertices.push(new THREE.Vector3(x, y, z));
+        console.log(pointGeo.vertices);
+        pointGeo.colors.push(new THREE.Color().setRGB(
+          hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255
+        ));
+        }
+    var points = new THREE.PointCloud(pointGeo, mat);
+    rockholds.push(points);
+    scatterPlot.add(points);
+    //renderer.render(scene2, camera);
+
+    });
+
+        effect = new THREE.StereoEffect(renderer);
+
+        // Our initial control fallback with mouse/touch events in case DeviceOrientation is not enabled
+        controls = new THREE.OrbitControls(camera, element);
+        controls.target.set(
+          camera.position.x + 0.15,
+          camera.position.y,
+          camera.position.z
+        );
+        controls.noPan = true;
+        controls.noZoom = true;
+
+        // Our preferred controls via DeviceOrientation
+        function setOrientationControls(e) {
+          if (!e.alpha) {
+            return;
+          }
+
+          controls = new THREE.DeviceOrientationControls(camera, true);
+          controls.connect();
+          controls.update();
+
+          element.addEventListener('click', fullscreen, false);
+
+          window.removeEventListener('deviceorientation', setOrientationControls, true);
+        }
+        window.addEventListener('deviceorientation', setOrientationControls, true);
+
+            // creation of a big sphere geometry
+			var sphere = new THREE.SphereGeometry(100, 100, 40);
+			sphere.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
+
+			// creation of the sphere material
+			var sphereMaterial = new THREE.MeshBasicMaterial();
+			sphereMaterial.map = THREE.ImageUtils.loadTexture("./img/sky.jpg")
+
+			// geometry + material = mesh (actual object)
+			var sphereMesh = new THREE.Mesh(sphere, sphereMaterial);
+			scene.add(sphereMesh);
+
+        clock = new THREE.Clock();
+
+        animate();
+      }
+
+
+      function animate() {
+        var elapsedSeconds = clock.getElapsedTime();
+        requestAnimationFrame(animate);
+        raycaster.setFromCamera( new THREE.Vector3(), camera );
+        var intersects = raycaster.intersectObjects( rockholds );
+        if ( intersects.length > 0 ) {
+            text2.innerHTML = "";
+            text2.innerHTML = "Nike's revenue data";
+        }
+
+
+
+        update(clock.getDelta());
+        render(clock.getDelta());
+      }
+
+      function resize() {
+        var width = container.offsetWidth;
+        var height = container.offsetHeight;
+
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(width, height);
+        effect.setSize(width, height);
+      }
+
+      function update(dt) {
+        resize();
+        camera.updateProjectionMatrix();
+        controls.update(dt);
+      }
+
+      function render(dt) {
+        effect.render(scene, camera);
+      }
+
+      function fullscreen() {
+        if (container.requestFullscreen) {
+          container.requestFullscreen();
+        } else if (container.msRequestFullscreen) {
+          container.msRequestFullscreen();
+        } else if (container.mozRequestFullScreen) {
+          container.mozRequestFullScreen();
+        } else if (container.webkitRequestFullscreen) {
+          container.webkitRequestFullscreen();
+        }
+      }
+
+      function hexToRgb(hex) { //TODO rewrite with vector output
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+      }
+    </script>
+</body>
+
+</html>

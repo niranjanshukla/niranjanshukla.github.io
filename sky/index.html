@@ -44,6 +44,7 @@
           raycaster,
           mouse,
           text2,
+          points,
           rockholds = [];
 
     var w = 300;
@@ -149,7 +150,7 @@
           hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255
         ));
         }
-    var points = new THREE.PointCloud(pointGeo, mat);
+    points = new THREE.PointCloud(pointGeo, mat);
     rockholds.push(points);
     scatterPlot.add(points);
     //renderer.render(scene2, camera);

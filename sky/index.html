@@ -152,7 +152,7 @@
     rockholds.push(points);
     scatterPlot.add(points);
 
-    console.log(stars);
+    stargaze(stars);
     }
 
     queue()
@@ -284,6 +284,17 @@
             g: parseInt(result[2], 16),
             b: parseInt(result[3], 16)
         } : null;
+      }
+
+      function stargaze(stars){
+        stars.forEach(
+          function(star){
+            camera.position.x = star.x;
+            camera.position.y = star.y;
+            camera.position.z = star.z;
+            camera.lookAt(pointGeo.position);
+          }
+        );
       }
     </script>
 </body>

@@ -135,11 +135,28 @@
       var pointCount = unfiltered.length;
       pointGeo = new THREE.Geometry();
 
+
+      var lineMaterial = new THREE.LineBasicMaterial({
+        color: "white"
+      });
+      var lineGeometry = new THREE.Geometry();
       for (var i = 0; i < pointCount; i ++) {
         var x = xScale(unfiltered[i].x);
         var y = yScale(unfiltered[i].y);
         var z = zScale(unfiltered[i].z);
+
+        var xprev = xScale(unfiltered[i].x);
+        var yprev = yScale(unfiltered[i].y);
+        var zprev = zScale(unfiltered[i].z);
+
         pointGeo.vertices.push(new THREE.Vector3(x, y, z));
+
+        if(i > 0){
+          lineGeometry.vertices.push(new THREE.Vector3(xprev, yprev, zprev));
+          lineGeometry.vertices.push(new THREE.Vector3(x, y, z));
+        }
+        var line = new THREE.Line(lineGeometry, lineMaterial);
+        scene.add(line);
 
         stars.push(new THREE.Vector3(x, y, z));
         console.log(pointGeo.vertices);
@@ -267,22 +284,12 @@
   }
 
   var i = 0;
-  var lineMaterial = new THREE.LineBasicMaterial({
-    color: "white"
-  });
-  var lineGeometry = new THREE.Geometry();
   function stargaze(star){
       var star = stars[i];
       console.log("Star "+star);
       camera.position.x = star.x;
       camera.position.y = star.y;
       camera.position.z = star.z - 50;
-      if(i > 0){
-        lineGeometry.vertices.push(stars[i-1]);
-        lineGeometry.vertices.push(stars[i]);
-      }
-      var line = new THREE.Line(lineGeometry, lineMaterial);
-      scene.add(line);
       //camera.lookAt(new THREE.Vector3(star.x,star.y,star.z));
       console.log("next");
       i++;

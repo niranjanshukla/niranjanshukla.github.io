@@ -218,7 +218,7 @@
                 camera.updateProjectionMatrix();
             }, 5000);*/
 
-        stars.forEach(setTimeOut(function(entry){
+        stars.forEach(setTimeout(function(entry){
           var bb = new THREE.Box3();
           bb.setFromObject(entry);
           bb.center(controls.target);

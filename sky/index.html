@@ -131,7 +131,7 @@
 
 
       var mat = new THREE.PointCloudMaterial({
-        size: 0.8,
+        size: 1.2,
         color: "white"
       });
 
@@ -275,7 +275,7 @@
       console.log("Star "+star);
       camera.position.x = star.x;
       camera.position.y = star.y;
-      camera.position.z = star.z + 40;
+      camera.position.z = star.z - 50;
       //camera.lookAt(new THREE.Vector3(star.x,star.y,star.z));
       console.log("next");
       i++;

@@ -152,7 +152,7 @@
       rockholds.push(points);
       scatterPlot.add(points);
 
-      window.setInterval(stargaze, 100);
+      window.setInterval(stargaze, 5000);
     }
 
     queue()
@@ -275,7 +275,7 @@
       camera.position.z = star.z;
       console.log("next");
       i++;
-      if(i > stars.length){
+      if(i == stars.length){
         i = 0;
       }
   }

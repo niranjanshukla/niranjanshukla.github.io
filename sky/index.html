@@ -91,7 +91,7 @@
     }
     var unfiltered = [];
     var format = d3.format("+.3f");
-    var data = d3.csv("./data/nike_rev.csv", function (d) {
+    var load = function (d) {
 
         d.forEach(function (d,i) {
             unfiltered[i] = {
@@ -157,7 +157,17 @@
     scatterPlot.add(points);
     //renderer.render(scene2, camera);
 
+    }
+
+    var q = d3.queue();
+    q.defer(data);
+    q.await(function(error){
+      if(error) throw error;
+      console.log(stars);
     });
+
+
+    var data = d3.csv("./data/nike_rev.csv", load);
 
         effect = new THREE.StereoEffect(renderer);
 
@@ -217,7 +227,7 @@
                 camera.fov = fov;
                 camera.updateProjectionMatrix();
             }, 5000);*/
-        
+
 
         animate();
 

@@ -157,10 +157,10 @@
     queue()
       .defer(d3.csv, './data/nike_rev.csv')
       .await(load);
-      /*.await(function(error){
-          console.log(stars);
+      .await(function(error){
+          console.log("hi");
         }
-      );*/
+      );
 
 
     var data = d3.csv("./data/nike_rev.csv", load);

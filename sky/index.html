@@ -276,7 +276,7 @@
       //camera.position.x = star.x;
       //camera.position.y = star.y;
       //camera.position.z = star.z;
-      camera.lookAt(i+100);
+      camera.lookAt(new THREE.Vector3(star.x,star.y,star.z));
       console.log("next");
       i++;
       if(i == stars.length){

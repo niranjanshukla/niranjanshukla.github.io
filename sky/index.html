@@ -221,7 +221,7 @@
         stars.forEach(function(entry){
           var bb = new THREE.Box3();
           bb.setFromObject(entry);
-          setTimeout(bb.center(controls.target),5000);
+          bb.center(controls.target);
         });
 
         animate();

@@ -45,7 +45,6 @@
   raycaster,
   mouse,
   text2,
-  refresh,
   rockholds = [],
   stars = [];
 
@@ -153,10 +152,8 @@
       rockholds.push(points);
       scatterPlot.add(points);
 
-      while(i < stars.length){
-        refresh = window.setInterval(stargaze, 5000);
-        i++;
-      }
+      window.setInterval(stargaze, 5000);
+
     }
 
     queue()
@@ -280,7 +277,7 @@
       console.log("next");
       i++;
       if(i == stars.length){
-        clearInterval(refresh);
+        i = 0;
       }
   }
   </script>

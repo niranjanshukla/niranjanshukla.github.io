@@ -215,6 +215,12 @@
                 camera.updateProjectionMatrix();
             }, 5000);*/
 
+        pointGeo.vertices.forEach(setTimeOut(function(entry){
+          var bb = new THREE.Box3();
+          bb.setFromObject(entry);
+          bb.center(controls.target);
+        },5000));
+
         animate();
 
 

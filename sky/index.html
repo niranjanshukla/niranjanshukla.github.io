@@ -145,13 +145,14 @@
         var y = yScale(unfiltered[i].y);
         var z = zScale(unfiltered[i].z);
 
-        var xprev = xScale(unfiltered[i].x);
-        var yprev = yScale(unfiltered[i].y);
-        var zprev = zScale(unfiltered[i].z);
 
         pointGeo.vertices.push(new THREE.Vector3(x, y, z));
 
         if(i > 0){
+          var xprev = xScale(unfiltered[i-1].x);
+          var yprev = yScale(unfiltered[i-1].y);
+          var zprev = zScale(unfiltered[i-1].z);
+
           lineGeometry.vertices.push(new THREE.Vector3(xprev, yprev, zprev));
           lineGeometry.vertices.push(new THREE.Vector3(x, y, z));
         }

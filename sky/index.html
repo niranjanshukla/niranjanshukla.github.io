@@ -163,8 +163,9 @@
     queue()
       .defer(d3.csv, './data/nike_rev.csv')
       .await(load)
-      .await({
-        console.log(stars);
+      .await(function(error){
+        if(!error) throw error;
+          console.log(stars);
       });
 
 

@@ -30,11 +30,6 @@
     <script src="./js/OrbitControls.js"></script>
     <script src="./js/d3.v3.min.js"></script>
     <script src="https://d3js.org/d3-queue.v2.min.js"></script>
-    <script>
-
-var q = d3_queue.queue();
-
-</script>
 
     <script>
         var scene,
@@ -165,12 +160,13 @@ var q = d3_queue.queue();
 
     }
 
-    var q = d3.queue();
-    q.defer(data);
-    q.await(function(error){
-      if(error) throw error;
-      console.log(stars);
-    });
+    queue()
+      .defer(d3.csv, './data/nike_rev.csv')
+      .await(load)
+      .await({
+        if(error) throw error;
+          console.log(stars);
+      });
 
 
     var data = d3.csv("./data/nike_rev.csv", load);

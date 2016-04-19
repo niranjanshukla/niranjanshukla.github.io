@@ -132,11 +132,6 @@
                   .range([-50,50]);
 
 
-    /*var mat = new THREE.PointCloudMaterial({
-        vertexColors: true,
-        size: 0.6,
-        color: 0xe6f7ff
-    });*/
     var mat = new THREE.PointCloudMaterial({
       size: 0.8,
       color: "white"
@@ -144,7 +139,7 @@
 
     var pointCount = unfiltered.length;
     pointGeo = new THREE.Geometry();
-    //console.log(pointCount);
+
     for (var i = 0; i < pointCount; i ++) {
         var x = xScale(unfiltered[i].x);
         var y = yScale(unfiltered[i].y);
@@ -160,7 +155,7 @@
     var points = new THREE.PointCloud(pointGeo, mat);
     rockholds.push(points);
     scatterPlot.add(points);
-    //renderer.render(scene2, camera);
+
 */
     }
 

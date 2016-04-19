@@ -33,7 +33,6 @@
 
   <script>
   var scene,
-  scene2,
   camera,
   renderer,
   element,
@@ -63,11 +62,9 @@
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
     scene = new THREE.Scene();
-    scene2 = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.001, 700);
     camera.position.set(0, -30, 0);
     scene.add(camera);
-    //scene2.add(camera);
 
     text2 = document.createElement('div');
     text2.style.position = 'absolute';
@@ -270,12 +267,22 @@
   }
 
   var i = 0;
+  var lineMaterial = new THREE.LineBasicMaterial({
+    color: "white"
+  });
+  var lineGeometry = new THREE.Geometry();
   function stargaze(star){
       var star = stars[i];
       console.log("Star "+star);
       camera.position.x = star.x;
       camera.position.y = star.y;
       camera.position.z = star.z - 50;
+      if(i > 0){
+        lineGeometry.vertices.push(stars[i-1]);
+        lineGeometry.vertices.push(stars[i]);
+      }
+      var line = new THREE.Line(lineGeometry, lineMaterial);
+      scene.add(line);
       //camera.lookAt(new THREE.Vector3(star.x,star.y,star.z));
       console.log("next");
       i++;

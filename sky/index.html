@@ -154,7 +154,15 @@
 
       var i = 0;
       while(i < stars.length){
-        window.setInterval(stargaze, 5000);
+        window.setInterval(function stargaze(star){
+          var star = stars[i];
+          console.log("Star "+star);
+          camera.position.x = star.x;
+          camera.position.y = star.y;
+          camera.position.z = star.z;
+          console.log("next");
+
+        }, 5000);
         i++;
       }
     }
@@ -270,15 +278,7 @@
     } : null;
   }
 
-  function stargaze(star){
-      var star = stars[i];
-      console.log("Star "+star);
-      camera.position.x = star.x;
-      camera.position.y = star.y;
-      camera.position.z = star.z;
-      console.log("next");
 
-  }
   </script>
 </body>
 

@@ -218,11 +218,11 @@
                 camera.updateProjectionMatrix();
             }, 5000);*/
 
-        stars.forEach(setTimeout(function(entry){
+        stars.forEach(function(entry){
           var bb = new THREE.Box3();
           bb.setFromObject(entry);
-          bb.center(controls.target);
-        },5000));
+          setTimeout(bb.center(controls.target),5000);
+        });
 
         animate();
 

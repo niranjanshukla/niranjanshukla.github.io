@@ -152,8 +152,16 @@
     rockholds.push(points);
     scatterPlot.add(points);
 
-    stargaze(stars);
-    }
+    stars.forEach(function(star){
+      setTimeout(function(){
+        camera.position.x = star.x;
+        camera.position.y = star.y;
+        camera.position.z = star.z;
+        console.log("next");
+      },5000);
+    });
+
+  }
 
     queue()
       .defer(d3.csv, './data/nike_rev.csv')
@@ -284,17 +292,6 @@
             g: parseInt(result[2], 16),
             b: parseInt(result[3], 16)
         } : null;
-      }
-
-      function stargaze(stars){
-        stars.forEach(
-          function(star){
-            camera.position.x = star.x;
-            camera.position.y = star.y;
-            camera.position.z = star.z;
-            setTimeout(function(){console.log('iteration done')}, 5000);
-            //camera.lookAt(pointGeo.position);
-          });
       }
     </script>
 </body>

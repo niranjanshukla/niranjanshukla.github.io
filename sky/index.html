@@ -152,15 +152,12 @@
     rockholds.push(points);
     scatterPlot.add(points);
 
+    console.log(stars);
     }
 
     queue()
       .defer(d3.csv, './data/nike_rev.csv')
-      .await(load)
-      .await(function(error){
-          var a;
-        }
-      );
+      .await(load);
 
 
     var data = d3.csv("./data/nike_rev.csv", load);

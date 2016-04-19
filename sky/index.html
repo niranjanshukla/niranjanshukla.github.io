@@ -219,9 +219,7 @@
             }, 5000);*/
 
         stars.forEach(function(entry){
-          var bb = new THREE.Box3();
-          bb.setFromObject(entry);
-          bb.center(controls.target);
+          camera.target.position.copy(entry);
         });
 
         animate();

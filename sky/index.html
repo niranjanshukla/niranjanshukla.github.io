@@ -139,7 +139,7 @@
       var lineMaterial = new THREE.LineBasicMaterial({
         color: "white"
       });
-      var lineGeometry = new THREE.Geometry();
+      //var lineGeometry = new THREE.Geometry();
       for (var i = 0; i < pointCount; i ++) {
         var x = xScale(unfiltered[i].x);
         var y = yScale(unfiltered[i].y);
@@ -147,7 +147,7 @@
 
 
         pointGeo.vertices.push(new THREE.Vector3(x, y, z));
-        lineGeometry.vertices.push(new THREE.Vector3(x, y, z));
+        //lineGeometry.vertices.push(new THREE.Vector3(x, y, z));
 
         stars.push(new THREE.Vector3(x, y, z));
         console.log(pointGeo.vertices);
@@ -155,7 +155,7 @@
           hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255
         ));
       }
-      var line = new THREE.Line(lineGeometry, lineMaterial);
+      var line = new THREE.Line(pointGeo, lineMaterial);
       scene.add(line);
 
       var points = new THREE.PointCloud(pointGeo, mat);

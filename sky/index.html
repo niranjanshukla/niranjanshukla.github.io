@@ -92,12 +92,8 @@
     }
     var unfiltered = [];
     var format = d3.format("+.3f");
-    var load = function (Year, Revenue) {
+    var load = function (error, d) {
 
-      console.log(Year);
-      console.log(Revenue);
-
-/*
         d.forEach(function (d,i) {
             unfiltered[i] = {
                 x: +d.Year,
@@ -156,7 +152,6 @@
     rockholds.push(points);
     scatterPlot.add(points);
 
-*/
     }
 
     queue()

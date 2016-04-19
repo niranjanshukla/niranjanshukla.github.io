@@ -46,6 +46,7 @@
   mouse,
   text2,
   refresh,
+  scatterPlot,
   rockholds = [],
   stars = [];
 
@@ -85,7 +86,7 @@
     container.appendChild(element);
 
 
-    var scatterPlot = new THREE.Object3D();
+    scatterPlot = new THREE.Object3D();
     scene.add(scatterPlot);
     scatterPlot.rotation.z = 50;
     function v(x, y, z) {
@@ -275,6 +276,7 @@
       camera.position.x = star.x;
       camera.position.y = star.y;
       camera.position.z = star.z;
+      camera.lookAt(scatterPlot.position);
       console.log("next");
       i++;
       if(i == stars.length){

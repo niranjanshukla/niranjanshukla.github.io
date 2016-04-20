@@ -139,7 +139,7 @@
         linewidth: 2
       });
 
-      pointGeo.vertices.push(new THREE.Vector3(xScale(unfiltered[0].x),yScale(unfiltered[i].y),zScale(unfiltered[i].z)));
+      pointGeo.vertices.push(new THREE.Vector3(xScale(unfiltered[0].x),yScale(unfiltered[0].y),zScale(unfiltered[0].z)));
       var line = new THREE.Line(pointGeo, lineMaterial);
       scene.add(line);
 

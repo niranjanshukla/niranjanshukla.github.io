@@ -194,17 +194,6 @@
     }
     window.addEventListener('deviceorientation', setOrientationControls, true);
 
-    // creation of a big sphere geometry
-    var sphere = new THREE.SphereGeometry(200, 200, 40);
-    sphere.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
-
-    // creation of the sphere material
-    var sphereMaterial = new THREE.MeshBasicMaterial();
-    sphereMaterial.map = THREE.ImageUtils.loadTexture("./img/sky.jpg")
-
-    // geometry + material = mesh (actual object)
-    var sphereMesh = new THREE.Mesh(sphere, sphereMaterial);
-    scene.add(sphereMesh);
 
     clock = new THREE.Clock();
 

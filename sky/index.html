@@ -68,10 +68,11 @@
     container = document.getElementById('webglviewer');
 
 
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 500);
-    camera.position.set(0, 0, 100);
-    camera.lookAt(new THREE.Vector3(-10, 0, 0));
+    camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.001, 700);
+    camera.position.set(0, -70, -20);
+    //camera.lookAt(new THREE.Vector3(-10, 0, 0));
     scene = new THREE.Scene();
+    scene.add(camera);
 
     controls = new THREE.OrbitControls(camera, element);
     controls.target.set(
@@ -157,8 +158,8 @@
 
 
     var mat = new THREE.PointCloudMaterial({
-      size: 5,
-      color: "white"
+      size: 2.0,
+      color: "#4da6ff"
     });
 
     var pointCount = unfiltered.length;
@@ -166,7 +167,8 @@
     constellationGeo = new THREE.Geometry();
 
     var lineMaterial = new THREE.LineBasicMaterial({
-      color: "white"
+      color: "white",
+      linewidth: 2.0
     });
     //var lineGeometry = new THREE.Geometry();
     for (var i = 0; i < pointCount; i ++) {
@@ -195,7 +197,7 @@
     //refresh = window.setInterval(stargaze, 5000);
 
     // creation of a big sphere geometry
-    var sphere = new THREE.SphereGeometry(100, 100, 20);
+    var sphere = new THREE.SphereGeometry(100, 100, 40);
     sphere.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
 
     // creation of the sphere material

@@ -138,22 +138,14 @@
         color: "white",
         linewidth: 2
       });
-
-      pointGeo.vertices.push(new THREE.Vector3(xScale(unfiltered[0].x),yScale(unfiltered[0].y),zScale(unfiltered[0].z)));
-      var line = new THREE.Line(pointGeo, lineMaterial);
-      scene.add(line);
-
-      for (var i = 1; i < pointCount; i ++) {
+      for (var i = 0; i < pointCount; i ++) {
         var x = xScale(unfiltered[i].x);
         var y = yScale(unfiltered[i].y);
         var z = zScale(unfiltered[i].z);
 
         var star = new THREE.Vector3(x, y, z);
         pointGeo.vertices.push(star);
-        line = new THREE.Line(pointGeo, lineMaterial);
-        scene.add(line);
-        pointGeo.vertices = [];
-
+        
         stars.push(star);
         console.log(pointGeo.vertices);
         pointGeo.colors.push(new THREE.Color().setRGB(
@@ -161,7 +153,8 @@
         ));
       }
 
-
+      var line = new THREE.Line(constellationGeo, lineMaterial);
+      scene.add(line);
       var points = new THREE.PointCloud(pointGeo, mat);
       scatterPlot.add(points);
 

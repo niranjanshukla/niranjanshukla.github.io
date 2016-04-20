@@ -143,9 +143,9 @@
         var y = yScale(unfiltered[i].y);
         var z = zScale(unfiltered[i].z);
 
-
-        pointGeo.vertices.push(new THREE.Vector3(x, y, z));
-        constellationGeo.vertices.push(new THREE.Vector3(x,y,z));
+        var star = new THREE.Vector3(x, y, z);
+        pointGeo.vertices.push(star);
+        constellationGeo.vertices.push(star);
 
         stars.push(new THREE.Vector3(x, y, z));
         console.log(pointGeo.vertices);

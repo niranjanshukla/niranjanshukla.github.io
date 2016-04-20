@@ -140,13 +140,15 @@
       });
       var constellationGeo = new THREE.Geometry();
       for (var i = 0; i < pointCount; i ++) {
-        var x = unfiltered[i].x;
-        var y = unfiltered[i].y;
-        var z = unfiltered[i].z;
+        var x = xScale(unfiltered[i].x);
+        var y = yScale(unfiltered[i].y);
+        var z = zScale(unfiltered[i].z);
 
         var star = new THREE.Vector3(x, y, z);
         pointGeo.vertices.push(star);
-        constellationGeo.vertices.push(star);
+
+        if(i == 0 || i == pointCount - 1)
+          constellationGeo.vertices.push(star);
 
         stars.push(new THREE.Vector3(x, y, z));
         console.log(pointGeo.vertices);

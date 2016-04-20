@@ -46,7 +46,6 @@
   text2,
   refresh,
   scatterPlot,
-  rockholds = [],
   stars = [];
 
   var w = 300;
@@ -135,11 +134,9 @@
       var pointCount = unfiltered.length;
       pointGeo = new THREE.Geometry();
 
-
       var lineMaterial = new THREE.LineBasicMaterial({
         color: "white"
       });
-      //var lineGeometry = new THREE.Geometry();
       for (var i = 0; i < pointCount; i ++) {
         var x = xScale(unfiltered[i].x);
         var y = yScale(unfiltered[i].y);
@@ -147,7 +144,6 @@
 
 
         pointGeo.vertices.push(new THREE.Vector3(x, y, z));
-        //lineGeometry.vertices.push(new THREE.Vector3(x, y, z));
 
         stars.push(new THREE.Vector3(x, y, z));
         console.log(pointGeo.vertices);
@@ -155,14 +151,13 @@
           hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255
         ));
       }
+
       var line = new THREE.Line(pointGeo, lineMaterial);
       scene.add(line);
-
       var points = new THREE.PointCloud(pointGeo, mat);
-      rockholds.push(points);
       scatterPlot.add(points);
 
-      refresh = window.setInterval(stargaze, 5000);
+      //refresh = window.setInterval(stargaze, 5000);
 
     }
 
@@ -222,15 +217,6 @@
   function animate() {
     var elapsedSeconds = clock.getElapsedTime();
     requestAnimationFrame(animate);
-    raycaster.setFromCamera( new THREE.Vector3(), camera );
-    var intersects = raycaster.intersectObjects( rockholds );
-    if ( intersects.length > 0 ) {
-      text2.innerHTML = "";
-      text2.innerHTML = "Nike's revenue data";
-    }
-
-
-
     update(clock.getDelta());
     render(clock.getDelta());
   }

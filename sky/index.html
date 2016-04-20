@@ -176,12 +176,12 @@
       var y = yScale(unfiltered[i].y);
       var z = zScale(unfiltered[i].z);
 
-
-      pointGeo.vertices.push(new THREE.Vector3(x, y, z));
-      constellationGeo.vertices.push(new THREE.Vector3(x,y,z));
+      var star = new THREE.Vector3(x,y,z);
+      pointGeo.vertices.push(star);
+      constellationGeo.vertices.push(star);
       //lineGeometry.vertices.push(new THREE.Vector3(x, y, z));
 
-      stars.push(new THREE.Vector3(x, y, z));
+      stars.push(star);
       console.log(pointGeo.vertices);
       pointGeo.colors.push(new THREE.Color().setRGB(
         hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255
@@ -197,7 +197,7 @@
     //refresh = window.setInterval(stargaze, 5000);
 
     // creation of a big sphere geometry
-    var sphere = new THREE.SphereGeometry(100, 100, 40);
+    var sphere = new THREE.SphereGeometry(200, 200, 40);
     sphere.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
 
     // creation of the sphere material

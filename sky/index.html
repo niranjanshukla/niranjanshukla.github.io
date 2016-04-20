@@ -150,6 +150,9 @@
 
         var star = new THREE.Vector3(x, y, z);
         pointGeo.vertices.push(star);
+        line = new THREE.Line(pointGeo, lineMaterial);
+        scene.add(line);
+        pointGeo.vertices = [];
 
         stars.push(star);
         console.log(pointGeo.vertices);

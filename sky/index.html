@@ -137,6 +137,7 @@
       var lineMaterial = new THREE.LineBasicMaterial({
         color: "white"
       });
+      var constellationGeo = new THREE.Geometry();
       for (var i = 0; i < pointCount; i ++) {
         var x = xScale(unfiltered[i].x);
         var y = yScale(unfiltered[i].y);
@@ -144,6 +145,7 @@
 
 
         pointGeo.vertices.push(new THREE.Vector3(x, y, z));
+        constellationGeo.vertices.push(new THREE.Vector3(x,y,z));
 
         stars.push(new THREE.Vector3(x, y, z));
         console.log(pointGeo.vertices);
@@ -152,7 +154,7 @@
         ));
       }
 
-      var line = new THREE.Line(pointGeo, lineMaterial);
+      var line = new THREE.Line(constellationGeo, lineMaterial);
       scene.add(line);
       var points = new THREE.PointCloud(pointGeo, mat);
       scatterPlot.add(points);

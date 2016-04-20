@@ -145,7 +145,7 @@
 
         var star = new THREE.Vector3(x, y, z);
         pointGeo.vertices.push(star);
-        
+
         stars.push(star);
         console.log(pointGeo.vertices);
         pointGeo.colors.push(new THREE.Color().setRGB(
@@ -153,7 +153,7 @@
         ));
       }
 
-      var line = new THREE.Line(constellationGeo, lineMaterial);
+      var line = new THREE.Line(pointGeo, lineMaterial);
       scene.add(line);
       var points = new THREE.PointCloud(pointGeo, mat);
       scatterPlot.add(points);

@@ -41,12 +41,15 @@
   controls,
   clock,
   pointGeo,
+  constellationGeo,
   raycaster,
   mouse,
   text2,
   refresh,
-  scatterPlot,
-  stars = [];
+  scatterPlot = new THREE.Object3D(),
+  stars = [],
+  unfiltered = [];
+  format = d3.format("+.3f");
 
   var w = 300;
   var h = 300;
@@ -58,117 +61,18 @@
   init();
 
   function init() {
-    raycaster = new THREE.Raycaster();
-    mouse = new THREE.Vector2();
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.001, 700);
-    camera.position.set(0, -30, 0);
-    scene.add(camera);
-
-    text2 = document.createElement('div');
-    text2.style.position = 'absolute';
-    text2.style.width = 40;
-    text2.style.height = 30;
-    text2.style.backgroundColor = "orange";
-    text2.style.top = 0 + 'px';
-    text2.style.right = 0 + 'px';
-    text2.innerHTML = "placeholder";
-    document.body.appendChild(text2);
-
     renderer = new THREE.WebGLRenderer();
-    renderer.autoClear = false;
-    element = renderer.domElement;
-    container = document.getElementById('webglviewer');
-    container.appendChild(element);
-
-
-    scatterPlot = new THREE.Object3D();
-    scene.add(scatterPlot);
-    scatterPlot.rotation.z = 50;
-    function v(x, y, z) {
-      return new THREE.Vector3(x, y, z);
-    }
-    var unfiltered = [];
-    var format = d3.format("+.3f");
-    var load = function (error, d) {
-
-      d.forEach(function (d,i) {
-        unfiltered[i] = {
-          x: +d.Year,
-          y: +d.Revenue,
-          z: 0
-        };
-
-      })
-      var xExent = d3.extent(unfiltered, function (d) {return d.x; }),
-      yExent = d3.extent(unfiltered, function (d) {return d.y; }),
-      zExent = d3.extent(unfiltered, function (d) {return d.z; });
-      var vpts = {
-        xMax: xExent[1],
-        xCen: (xExent[1] + xExent[0]) / 2,
-        xMin: xExent[0],
-        yMax: yExent[1],
-        yCen: (yExent[1] + yExent[0]) / 2,
-        yMin: yExent[0],
-        zMax: zExent[1],
-        zCen: (zExent[1] + zExent[0]) / 2,
-        zMin: zExent[0]
-      }
-      var colour = d3.scale.category20c();
-      var xScale = d3.scale.linear()
-      .domain(xExent)
-      .range([-50,50]);
-      var yScale = d3.scale.linear()
-      .domain(yExent)
-      .range([-50,50]);
-      var zScale = d3.scale.linear()
-      .domain(zExent)
-      .range([-50,50]);
-
-
-      var mat = new THREE.PointCloudMaterial({
-        size: 1.2,
-        color: "white"
-      });
-
-      var pointCount = unfiltered.length;
-      pointGeo = new THREE.Geometry();
-
-      var lineMaterial = new THREE.LineBasicMaterial({
-        color: "white",
-        linewidth: 2
-      });
-      for (var i = 0; i < pointCount; i ++) {
-        var x = xScale(unfiltered[i].x);
-        var y = yScale(unfiltered[i].y);
-        var z = zScale(unfiltered[i].z);
-
-        var star = new THREE.Vector3(x, y, z);
-        if(i == 0 || i == 1)
-          pointGeo.vertices.push(star);
-        stars.push(star);
-        console.log(pointGeo.vertices);
-        pointGeo.colors.push(new THREE.Color().setRGB(
-          hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255
-        ));
-      }
-
-      var line = new THREE.Line(pointGeo, lineMaterial);
-      scene.add(line);
-      var points = new THREE.PointCloud(pointGeo, mat);
-      scatterPlot.add(points);
-
-      //refresh = window.setInterval(stargaze, 5000);
-
-    }
-
-    queue()
-    .defer(d3.csv, './data/nike_rev.csv')
-    .await(load);
-
     effect = new THREE.StereoEffect(renderer);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    container = document.getElementById('webglviewer');
 
-    // Our initial control fallback with mouse/touch events in case DeviceOrientation is not enabled
+
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 500);
+    camera.position.set(0, 0, 100);
+    camera.lookAt(new THREE.Vector3(-10, 0, 0));
+    scene = new THREE.Scene();
+
     controls = new THREE.OrbitControls(camera, element);
     controls.target.set(
       camera.position.x + 0.15,
@@ -195,11 +99,115 @@
     window.addEventListener('deviceorientation', setOrientationControls, true);
 
 
+    var material = new THREE.LineBasicMaterial({
+      color: 0x0000ff
+    });
+
+    var geometry = new THREE.Geometry();
+    geometry.vertices.push(new THREE.Vector3(-10, 0, 0));
+    geometry.vertices.push(new THREE.Vector3(0, 10, 0));
+    geometry.vertices.push(new THREE.Vector3(10, 0, 0));
+
+    var line = new THREE.Line(geometry, material);
+    //scene.add(line);
+    //renderer.render(scene, camera);
+
+    queue()
+    .defer(d3.csv, './data/nike_rev.csv')
+    .await(load);
+  }
+
+
+
+
+  function load(error, d) {
+
+    d.forEach(function (d,i) {
+      unfiltered[i] = {
+        x: +d.Year,
+        y: +d.Revenue,
+        z: 0
+      };
+
+    })
+    var xExent = d3.extent(unfiltered, function (d) {return d.x; }),
+    yExent = d3.extent(unfiltered, function (d) {return d.y; }),
+    zExent = d3.extent(unfiltered, function (d) {return d.z; });
+    var vpts = {
+      xMax: xExent[1],
+      xCen: (xExent[1] + xExent[0]) / 2,
+      xMin: xExent[0],
+      yMax: yExent[1],
+      yCen: (yExent[1] + yExent[0]) / 2,
+      yMin: yExent[0],
+      zMax: zExent[1],
+      zCen: (zExent[1] + zExent[0]) / 2,
+      zMin: zExent[0]
+    }
+    var colour = d3.scale.category20c();
+    var xScale = d3.scale.linear()
+    .domain(xExent)
+    .range([-50,50]);
+    var yScale = d3.scale.linear()
+    .domain(yExent)
+    .range([-50,50]);
+    var zScale = d3.scale.linear()
+    .domain(zExent)
+    .range([-50,50]);
+
+
+    var mat = new THREE.PointCloudMaterial({
+      size: 5,
+      color: "white"
+    });
+
+    var pointCount = unfiltered.length;
+    pointGeo = new THREE.Geometry();
+    constellationGeo = new THREE.Geometry();
+
+    var lineMaterial = new THREE.LineBasicMaterial({
+      color: "white"
+    });
+    //var lineGeometry = new THREE.Geometry();
+    for (var i = 0; i < pointCount; i ++) {
+      var x = xScale(unfiltered[i].x);
+      var y = yScale(unfiltered[i].y);
+      var z = zScale(unfiltered[i].z);
+
+
+      pointGeo.vertices.push(new THREE.Vector3(x, y, z));
+      constellationGeo.vertices.push(new THREE.Vector3(x,y,z));
+      //lineGeometry.vertices.push(new THREE.Vector3(x, y, z));
+
+      stars.push(new THREE.Vector3(x, y, z));
+      console.log(pointGeo.vertices);
+      pointGeo.colors.push(new THREE.Color().setRGB(
+        hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255
+      ));
+    }
+    var line = new THREE.Line(constellationGeo, lineMaterial);
+    scene.add(line);
+
+    var points = new THREE.PointCloud(pointGeo, mat);
+    scatterPlot.add(points);
+    scene.add(scatterPlot);
+    renderer.render(scene, camera);
+    //refresh = window.setInterval(stargaze, 5000);
+
+    // creation of a big sphere geometry
+    var sphere = new THREE.SphereGeometry(200, 200, 40);
+    sphere.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
+
+    // creation of the sphere material
+    var sphereMaterial = new THREE.MeshBasicMaterial();
+    sphereMaterial.map = THREE.ImageUtils.loadTexture("./img/sky.jpg")
+
+    // geometry + material = mesh (actual object)
+    var sphereMesh = new THREE.Mesh(sphere, sphereMaterial);
+    scene.add(sphereMesh);
+
     clock = new THREE.Clock();
-
-
     animate();
-
 
   }
 
@@ -207,8 +215,19 @@
   function animate() {
     var elapsedSeconds = clock.getElapsedTime();
     requestAnimationFrame(animate);
+
     update(clock.getDelta());
     render(clock.getDelta());
+  }
+
+
+  function hexToRgb(hex) { //TODO rewrite with vector output
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
   }
 
   function resize() {
@@ -244,29 +263,8 @@
     }
   }
 
-  function hexToRgb(hex) { //TODO rewrite with vector output
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16)
-    } : null;
-  }
 
-  var i = 0;
-  function stargaze(star){
-      var star = stars[i];
-      console.log("Star "+star);
-      camera.position.x = star.x;
-      camera.position.y = star.y;
-      camera.position.z = star.z - 50;
-      //camera.lookAt(new THREE.Vector3(star.x,star.y,star.z));
-      console.log("next");
-      i++;
-      if(i == stars.length){
-        window.clearInterval(refresh);
-      }
-  }
+
   </script>
 </body>
 

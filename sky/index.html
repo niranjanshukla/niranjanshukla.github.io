@@ -83,7 +83,7 @@
 
 
     scatterPlot = new THREE.Object3D();
-    scene.add(scatterPlot);
+    //scene.add(scatterPlot);
     scatterPlot.rotation.z = 50;
     function v(x, y, z) {
       return new THREE.Vector3(x, y, z);
@@ -156,8 +156,8 @@
 
       var line = new THREE.Line(constellationGeo, lineMaterial);
       scene.add(line);
-      var points = new THREE.PointCloud(pointGeo, mat);
-      scatterPlot.add(points);
+      //var points = new THREE.PointCloud(pointGeo, mat);
+      //scatterPlot.add(points);
 
       //refresh = window.setInterval(stargaze, 5000);
 

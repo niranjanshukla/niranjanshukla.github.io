@@ -145,12 +145,13 @@
         var z = zScale(unfiltered[i].z);
 
         var star = new THREE.Vector3(x, y, z);
-        pointGeo.vertices.push(star);
 
-        if(i == 0 || i == pointCount - 1)
+
+        if(i == 0 || i == pointCount - 1){
           constellationGeo.vertices.push(star);
-
-        stars.push(new THREE.Vector3(x, y, z));
+          pointGeo.vertices.push(star);
+        }
+        stars.push(star);
         console.log(pointGeo.vertices);
         pointGeo.colors.push(new THREE.Color().setRGB(
           hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255

@@ -174,10 +174,14 @@
       ));
     }
     var line = new THREE.Line(constellationGeo, lineMaterial);
+    line.translateZ(90);
+    line.translateY(10)
     scene.add(line);
 
     var points = new THREE.PointCloud(pointGeo, mat);
     scatterPlot.add(points);
+    scatterPlot.translateZ(90);
+    scatterPlot.translateY(10)
     scene.add(scatterPlot);
     //refresh = window.setInterval(stargaze, 5000);
 

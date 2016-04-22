@@ -68,14 +68,14 @@
     scene = new THREE.Scene();
     //scene.add(camera);
     controls = new THREE.OrbitControls(camera, element);
-    controls.target.set(
+    /*controls.target.set(
       camera.position.x + 0.15,
       camera.position.y,
       camera.position.z
-    );
+    );*/
     controls.noPan = true;
     controls.noZoom = true;
-    controls.target = new THREE.Vector3(-50,-39.142,-50);
+    controls.target = new THREE.Vector3(-50 + 10,-39.142,-50);
     controls.update();
     // Our preferred controls via DeviceOrientation
     function setOrientationControls(e) {
@@ -206,10 +206,10 @@
     var elapsedSeconds = clock.getElapsedTime();
     requestAnimationFrame(animate);
     raycaster.setFromCamera( new THREE.Vector3(), camera );
-    /*var intersects = raycaster.intersectObjects( stars );
+    var intersects = raycaster.intersectObjects( scatterPlot.children );
     if ( intersects.length > 0 ) {
-      alert('star');
-    }*/
+      alert(intersects.length);
+    }
     update(clock.getDelta());
     render(clock.getDelta());
   }

@@ -52,7 +52,8 @@
   format = d3.format("+.3f"),
   initView = true,
   material,
-  lineMaterial;
+  lineMaterial,
+  points;
 
   init();
 
@@ -69,8 +70,9 @@
 
     text = document.createElement('div');
     text.style.position = 'absolute';
-    text.style.width = 40;
-    text.style.height = 30;
+    text.style.width = 60;
+    text.style.height = 40;
+    text.style["font-weight"] = 'bold';
     text.style.color = "white";
     text.style.top = '0px';
     text.style.left = '0px';
@@ -189,7 +191,7 @@
     //line.translateZ(90);
     //line.translateY(10);
 
-    var points = new THREE.PointCloud(pointGeo, mat);
+    points = new THREE.PointCloud(pointGeo, mat);
     scatterPlot.add(points);
     //scatterPlot.translateZ(90);
     //scatterPlot.translateY(10)

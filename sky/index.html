@@ -44,7 +44,7 @@
   constellationGeo,
   raycaster,
   mouse,
-  text2,
+  text,
   refresh,
   scatterPlot = new THREE.Object3D(),
   stars = [],
@@ -66,7 +66,17 @@
       color: "white",
       linewidth: 2.0
     });
-    console.log("linematerial defined");
+
+    text = document.createElement('div');
+    text.style.position = 'absolute';
+    text.style.width = 40;
+    text.style.height = 30;
+    text.style.color = "white";
+    text.style.top = '0px';
+    text.style.left = '0px';
+    text.innerHTML = "National Geographic revenue";
+
+    document.body.appendChild(text);
 
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.001, 700);
     camera.position.set(0, -70, -20);
@@ -150,7 +160,7 @@
 
 
     var mat = new THREE.PointCloudMaterial({
-      size: 2.0,
+      size: 0.8,
       color: "#4da6ff"
     });
 
@@ -276,18 +286,22 @@
           var line = new THREE.Line(constellationGeo, lineMaterial);
           scene.add(line);
         }
-        console.log("next");
+        text.innerHTML = "";
+        text.innerHTML = "Year: "+unfiltered[i].x+" ,Revenue: "+unfiltered[i].y;
+
         i++;
         if(i == stars.length){
-          window.clearInterval(refresh);
-          controls = new THREE.OrbitControls(camera, element);
-          controls.target.set(
-            camera.position.x + 0.15,
-            camera.position.y,
-            camera.position.z
-          );
-          controls.noPan = true;
-          controls.noZoom = true;
+          setTimeout(function(){
+            controls = new THREE.OrbitControls(camera, element);
+            controls.target.set(
+              camera.position.x + 0.15,
+              camera.position.y,
+              camera.position.z
+            );
+            controls.noPan = true;
+            controls.noZoom = true;
+            window.clearInterval(refresh);
+          },5000);
         }
   }
 

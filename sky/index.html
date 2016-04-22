@@ -49,14 +49,8 @@
   scatterPlot = new THREE.Object3D(),
   stars = [],
   unfiltered = [];
-  format = d3.format("+.3f");
-
-  var w = 300;
-  var h = 300;
-
-  var margin = {top: 20, right: 20, bottom: 30, left: 40},
-  width = 960 - margin.left - margin.right,
-  height = 500 - margin.top - margin.bottom;
+  format = d3.format("+.3f"),
+  initView = true;
 
   init();
 
@@ -69,7 +63,7 @@
 
 
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.001, 700);
-    camera.position.set(0, -70, -20);
+    camera.position.set(0, -70, -20);//camera.position.set(0, -70, -20);
     scene = new THREE.Scene();
     //scene.add(camera);
     controls = new THREE.OrbitControls(camera, element);
@@ -83,6 +77,8 @@
 
     // Our preferred controls via DeviceOrientation
     function setOrientationControls(e) {
+      console.log('entered setOrientationControls');
+      //initView = false;
       if (!e.alpha) {
         return;
       }
@@ -155,7 +151,7 @@
 
 
     var mat = new THREE.PointCloudMaterial({
-      size: 1.2,
+      size: 2.0,
       color: "#4da6ff"
     });
 
@@ -174,8 +170,6 @@
       var z = zScale(unfiltered[i].z);
 
       var star = new THREE.Vector3(x,y,z);
-      if(i == 1)
-        camera.lookAt(star);
       console.log("star "+star);
       pointGeo.vertices.push(star);
       constellationGeo.vertices.push(star);
@@ -206,6 +200,7 @@
 		scene.add(sphere);
     clock = new THREE.Clock();
     animate();
+    effect.render(scene, camera);
   }
 
 
@@ -214,18 +209,19 @@
     requestAnimationFrame(animate);
 
     update(clock.getDelta());
-    //camera.lookAt( new THREE.Vector3(-50,-39.142, -50) );
     render(clock.getDelta());
   }
 
+  function update(dt) {
+    resize();
+    camera.updateProjectionMatrix();
+    controls.update(dt);
+  }
 
-  function hexToRgb(hex) { //TODO rewrite with vector output
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16)
-    } : null;
+  function render(dt) {
+    /*if(initView)
+      camera.lookAt(new THREE.Vector3(-50,-39.142,-50));*/
+    effect.render(scene, camera);
   }
 
   function resize() {
@@ -239,16 +235,17 @@
     effect.setSize(width, height);
   }
 
-  function update(dt) {
-    resize();
-    camera.updateProjectionMatrix();
-    controls.update(dt);
+  function hexToRgb(hex) { //TODO rewrite with vector output
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
   }
 
-  function render(dt) {
-    camera.lookAt( new THREE.Vector3(-50,-39.142, -50) );
-    effect.render(scene, camera);
-  }
+
+
 
   function fullscreen() {
     if (container.requestFullscreen) {

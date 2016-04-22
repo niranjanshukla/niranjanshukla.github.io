@@ -48,35 +48,40 @@
   refresh,
   scatterPlot = new THREE.Object3D(),
   stars = [],
-  unfiltered = [];
+  unfiltered = [],
   format = d3.format("+.3f"),
-  initView = true;
+  initView = true,
+  material,
+  lineMaterial;
 
   init();
 
   function init() {
     renderer = new THREE.WebGLRenderer();
     effect = new THREE.StereoEffect(renderer);
-    raycaster = new THREE.Raycaster();
-    //renderer.setSize(window.innerWidth, window.innerHeight);
+    //raycaster = new THREE.Raycaster();
     document.body.appendChild(renderer.domElement);
     container = document.getElementById('webglviewer');
-
+    lineMaterial = new THREE.LineBasicMaterial({
+      color: "white",
+      linewidth: 2.0
+    });
+    console.log("linematerial defined");
 
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.001, 700);
-    camera.position.set(0, -95, -20);//camera.position.set(0, -70, -20);
+    camera.position.set(0, -70, -20);
     scene = new THREE.Scene();
     //scene.add(camera);
     controls = new THREE.OrbitControls(camera, element);
-    /*controls.target.set(
+    controls.target.set(
       camera.position.x + 0.15,
       camera.position.y,
       camera.position.z
-    );*/
+    );
     controls.noPan = true;
     controls.noZoom = true;
-    controls.target = new THREE.Vector3(-50+0.15,-39.142,-50);
-    controls.update();
+    /*controls.target = new THREE.Vector3(-50+0.15,-39.142,-50);
+    controls.update();*/
     // Our preferred controls via DeviceOrientation
     function setOrientationControls(e) {
       console.log('entered setOrientationControls');
@@ -96,7 +101,7 @@
     window.addEventListener('deviceorientation', setOrientationControls, true);
 
 
-    var material = new THREE.LineBasicMaterial({
+    material = new THREE.LineBasicMaterial({
       color: 0x0000ff
     });
 
@@ -151,12 +156,8 @@
 
     var pointCount = unfiltered.length;
     pointGeo = new THREE.Geometry();
-    constellationGeo = new THREE.Geometry();
 
-    var lineMaterial = new THREE.LineBasicMaterial({
-      color: "white",
-      linewidth: 2.0
-    });
+
     //var lineGeometry = new THREE.Geometry();
     for (var i = 0; i < pointCount; i ++) {
       var x = xScale(unfiltered[i].x);
@@ -166,7 +167,6 @@
       var star = new THREE.Vector3(x,y,z);
       console.log("star "+star);
       pointGeo.vertices.push(star);
-      constellationGeo.vertices.push(star);
       //lineGeometry.vertices.push(new THREE.Vector3(x, y, z));
 
       stars.push(star);
@@ -175,17 +175,16 @@
         hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255
       ));
     }
-    var line = new THREE.Line(constellationGeo, lineMaterial);
+
     //line.translateZ(90);
-    //line.translateY(10)
-    scene.add(line);
+    //line.translateY(10);
 
     var points = new THREE.PointCloud(pointGeo, mat);
     scatterPlot.add(points);
     //scatterPlot.translateZ(90);
     //scatterPlot.translateY(10)
     scene.add(scatterPlot);
-    //refresh = window.setInterval(stargaze, 5000);
+    refresh = window.setInterval(stargaze, 5000);
 
     // creation of a big sphere geometry
     var sphere = new THREE.Mesh(
@@ -205,11 +204,11 @@
   function animate() {
     var elapsedSeconds = clock.getElapsedTime();
     requestAnimationFrame(animate);
-    raycaster.setFromCamera( new THREE.Vector3(), camera );
+    /*raycaster.setFromCamera( new THREE.Vector3(), camera );
     var intersects = raycaster.intersectObjects( scatterPlot.children );
     if ( intersects.length > 0 ) {
       alert(intersects.length);
-    }
+    }*/
     update(clock.getDelta());
     render(clock.getDelta());
   }
@@ -262,6 +261,35 @@
   }
 
 
+
+  var i = 0;
+  function stargaze(star){
+        var star = stars[i];
+        console.log("Star "+star);
+        controls.target = star;
+        controls.update();
+        if(i > 0){
+          var prevStar = stars[i-1];
+          constellationGeo = new THREE.Geometry();
+          constellationGeo.vertices.push(prevStar);
+          constellationGeo.vertices.push(star);
+          var line = new THREE.Line(constellationGeo, lineMaterial);
+          scene.add(line);
+        }
+        console.log("next");
+        i++;
+        if(i == stars.length){
+          window.clearInterval(refresh);
+          controls = new THREE.OrbitControls(camera, element);
+          controls.target.set(
+            camera.position.x + 0.15,
+            camera.position.y,
+            camera.position.z
+          );
+          controls.noPan = true;
+          controls.noZoom = true;
+        }
+  }
 
   </script>
 </body>

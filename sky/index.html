@@ -57,13 +57,14 @@
   function init() {
     renderer = new THREE.WebGLRenderer();
     effect = new THREE.StereoEffect(renderer);
+    raycaster = new THREE.Raycaster();
     //renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     container = document.getElementById('webglviewer');
 
 
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.001, 700);
-    camera.position.set(0, -70, -20);//camera.position.set(0, -70, -20);
+    camera.position.set(0, -95, -20);//camera.position.set(0, -70, -20);
     scene = new THREE.Scene();
     //scene.add(camera);
     controls = new THREE.OrbitControls(camera, element);
@@ -74,7 +75,8 @@
     );
     controls.noPan = true;
     controls.noZoom = true;
-
+    controls.target = new THREE.Vector3(-50,-39.142,-50);
+    controls.update();
     // Our preferred controls via DeviceOrientation
     function setOrientationControls(e) {
       console.log('entered setOrientationControls');
@@ -85,7 +87,7 @@
 
       controls = new THREE.DeviceOrientationControls(camera, true);
       controls.connect();
-      controls.update();
+      //controls.update();
 
       element.addEventListener('click', fullscreen, false);
 
@@ -174,14 +176,14 @@
       ));
     }
     var line = new THREE.Line(constellationGeo, lineMaterial);
-    line.translateZ(90);
-    line.translateY(10)
+    //line.translateZ(90);
+    //line.translateY(10)
     scene.add(line);
 
     var points = new THREE.PointCloud(pointGeo, mat);
     scatterPlot.add(points);
-    scatterPlot.translateZ(90);
-    scatterPlot.translateY(10)
+    //scatterPlot.translateZ(90);
+    //scatterPlot.translateY(10)
     scene.add(scatterPlot);
     //refresh = window.setInterval(stargaze, 5000);
 
@@ -203,7 +205,11 @@
   function animate() {
     var elapsedSeconds = clock.getElapsedTime();
     requestAnimationFrame(animate);
-
+    raycaster.setFromCamera( new THREE.Vector3(), camera );
+    /*var intersects = raycaster.intersectObjects( stars );
+    if ( intersects.length > 0 ) {
+      alert('star');
+    }*/
     update(clock.getDelta());
     render(clock.getDelta());
   }

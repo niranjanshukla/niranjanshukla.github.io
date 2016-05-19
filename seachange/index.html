@@ -173,9 +173,9 @@
 
     //var lineGeometry = new THREE.Geometry();
     for (var i = 0; i < pointCount; i ++) {
-      var x = unfiltered[i].x; //xScale(unfiltered[i].x);
-      var y = unfiltered[i].y; //yScale(unfiltered[i].y);
-      var z = unfiltered[i].z; //zScale(unfiltered[i].z);
+      var x = xScale(unfiltered[i].x);
+      var y = yScale(unfiltered[i].y);
+      var z = zScale(unfiltered[i].z);
 
       var star = new THREE.Vector3(x,y,z);
       console.log("star "+star);

@@ -162,8 +162,9 @@
 
 
     var mat = new THREE.PointCloudMaterial({
-      size: 0.8,
-      color: "#4da6ff"
+      size: 1.0,
+      //color: "#4da6ff"
+      map: THREE.ImageUtils.loadTexture("./img/red_marker.png")
     });
 
     var pointCount = unfiltered.length;

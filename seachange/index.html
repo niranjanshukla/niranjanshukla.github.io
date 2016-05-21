@@ -189,11 +189,14 @@
         topFour.push(unfiltered[3 - i]);
     }
 
+    topFour = topFour.reverse();
+
     //var lineGeometry = new THREE.Geometry();
     for (var i = 0; i < pointCount; i ++) {
       var x = xScale(topFour[i].x);
       var y = yScale(topFour[i].y);
       var z = zScale(topFour[i].z);
+
 
       var star = new THREE.Vector3(x,y,z);
       console.log("star "+star);

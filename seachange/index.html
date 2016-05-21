@@ -41,6 +41,7 @@
   controls,
   clock,
   pointGeo,
+  leftGeo,
   constellationGeo,
   raycaster,
   mouse,
@@ -53,7 +54,8 @@
   initView = true,
   material,
   lineMaterial,
-  points;
+  points,
+  left;
 
   init();
 
@@ -169,9 +171,15 @@
       map: sign
     });
 
+    var leftmat = new THREE.PointCloudMaterial({
+      size: 10.0,
+      //color: "#4da6ff"
+      map: THREE.ImageUtils.loadTexture("./img/left.png");
+    });
+
     var pointCount = unfiltered.length;
     pointGeo = new THREE.Geometry();
-
+    leftGeo = new THREE.Geometry();
 
     //var lineGeometry = new THREE.Geometry();
     for (var i = 0; i < pointCount; i ++) {
@@ -194,8 +202,12 @@
     //line.translateZ(90);
     //line.translateY(10);
 
+    leftGeo.vertices.push(new THREE.Vector3(-50,-12,-50));
     points = new THREE.PointCloud(pointGeo, mat);
+
+    left = new THREE.PointCloud(leftGeo, leftmat);
     scatterPlot.add(points);
+    scatterPlot.add(left);
     //scatterPlot.translateZ(90);
     //scatterPlot.translateY(10)
     scene.add(scatterPlot);

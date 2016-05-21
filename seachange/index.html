@@ -121,7 +121,7 @@
     });
 
     queue()
-    .defer(d3.csv, './data/nike_rev.csv')
+    .defer(d3.csv, './data/smc_pop.csv')
     .await(load);
   }
 
@@ -132,8 +132,8 @@
 
     d.forEach(function (d,i) {
       unfiltered[i] = {
-        x: +d.Year,
-        y: +d.Revenue,
+        x: +d.County,
+        y: +d.Percent,
         z: 0
       };
 
@@ -304,7 +304,7 @@
           scene.add(line);
         }
         text.innerHTML = "";
-        text.innerHTML = "Year: "+unfiltered[i].x+" ,Revenue: "+unfiltered[i].y;
+        text.innerHTML = "County: "+unfiltered[i].x+" ,Percent population at risk: "+unfiltered[i].y;
 
         i++;
         if(i == stars.length){

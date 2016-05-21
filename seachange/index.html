@@ -177,6 +177,10 @@
       var y = yScale(unfiltered[i].y);
       var z = zScale(unfiltered[i].z);
 
+      if(i == 0){
+          camera.lookAt(new THREE.Vector3(x,y,z));
+      }
+
       var star = new THREE.Vector3(x,y,z);
       console.log("star "+star);
       pointGeo.vertices.push(star);

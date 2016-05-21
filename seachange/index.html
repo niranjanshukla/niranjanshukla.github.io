@@ -184,13 +184,13 @@
     pointGeo = new THREE.Geometry();
     leftGeo = new THREE.Geometry();
 
-    var topFour = unfiltered.slice(unfiltered.length-4,unfiltered.length-1);
-    console.log("topFour "+topFour);
+    //var topFour = unfiltered.slice(unfiltered.length-4,unfiltered.length-1);
+    //console.log("topFour "+topFour);
     //var lineGeometry = new THREE.Geometry();
     for (var i = 0; i < pointCount; i ++) {
-      var x = xScale(topFour[i].x);
-      var y = yScale(topFour[i].y);
-      var z = zScale(topFour[i].z);
+      var x = xScale(unfiltered[i].x);
+      var y = yScale(unfiltered[i].y);
+      var z = zScale(unfiltered[i].z);
 
 
       var star = new THREE.Vector3(x,y,z);
@@ -310,7 +310,7 @@
           scene.add(line);
         }
         text.innerHTML = "";
-        text.innerHTML = "County ZIP: "+topFour[i].ZIP+" ,Percent population at risk: "+topFour[i].y;
+        text.innerHTML = "County ZIP: "+unfiltered[i].ZIP+" ,Percent population at risk: "+unfiltered[i].y;
 
         i++;
         if(i == stars.length){

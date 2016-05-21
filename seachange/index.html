@@ -161,11 +161,12 @@
     .domain(zExent)
     .range([-50,50]);
 
-
+    var sign = THREE.ImageUtils.loadTexture("./img/red_arrow.svg");
+    sign.offset.z =  Math.PI / 2;
     var mat = new THREE.PointCloudMaterial({
       size: 5.0,
       //color: "#4da6ff"
-      map: THREE.ImageUtils.loadTexture("./img/red_arrow.svg")
+      map: sign
     });
 
     var pointCount = unfiltered.length;

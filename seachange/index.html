@@ -172,7 +172,7 @@
     });
 
     var leftmat = new THREE.PointCloudMaterial({
-      size: 10.0,
+      size: 15.0,
       //color: "#4da6ff"
       map: THREE.ImageUtils.loadTexture("./img/left.png")
     });
@@ -202,7 +202,7 @@
     //line.translateZ(90);
     //line.translateY(10);
 
-    leftGeo.vertices.push(new THREE.Vector3(-50,-12,-50));
+    leftGeo.vertices.push(new THREE.Vector3(-80,-12,-50));
     points = new THREE.PointCloud(pointGeo, mat);
 
     left = new THREE.PointCloud(leftGeo, leftmat);

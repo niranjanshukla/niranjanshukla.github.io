@@ -184,13 +184,8 @@
     pointGeo = new THREE.Geometry();
     leftGeo = new THREE.Geometry();
 
-    var topFour = [];
-    for(var i = 0; i < 4; i++){
-        topFour.push(unfiltered[3 - i]);
-    }
-
-    topFour = topFour.reverse();
-
+    var topFour = unfiltered.slice(unfiltered.length-4,unfiltered.length-1);
+    console.log("topFour "+topFour);
     //var lineGeometry = new THREE.Geometry();
     for (var i = 0; i < pointCount; i ++) {
       var x = xScale(topFour[i].x);

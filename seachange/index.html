@@ -132,8 +132,8 @@
 
     d.forEach(function (d,i) {
       unfiltered[i] = {
-        x: +d.County,
-        y: +d.Percent,
+        x: +d.ZIP,
+        y: +d.FiveFoot,
         z: 0
       };
 
@@ -177,7 +177,7 @@
       map: THREE.ImageUtils.loadTexture("./img/left.png")
     });
 
-    var pointCount = unfiltered.length;
+    var pointCount = 4;//unfiltered.length;
     pointGeo = new THREE.Geometry();
     leftGeo = new THREE.Geometry();
 
@@ -211,7 +211,7 @@
     //scatterPlot.translateZ(90);
     //scatterPlot.translateY(10)
     scene.add(scatterPlot);
-    refresh = window.setInterval(stargaze, 5000);
+    refresh = window.setInterval(stargaze, 4000);
 
     // creation of a big sphere geometry
     var sphere = new THREE.Mesh(
@@ -304,7 +304,7 @@
           scene.add(line);
         }
         text.innerHTML = "";
-        text.innerHTML = "County: "+unfiltered[i].x+" ,Percent population at risk: "+unfiltered[i].y;
+        text.innerHTML = "County ZIP: "+unfiltered[i].x+" ,Percent population at risk: "+unfiltered[i].y;
 
         i++;
         if(i == stars.length){

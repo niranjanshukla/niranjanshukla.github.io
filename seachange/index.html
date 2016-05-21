@@ -66,7 +66,7 @@
     document.body.appendChild(renderer.domElement);
     container = document.getElementById('webglviewer');
     lineMaterial = new THREE.LineBasicMaterial({
-      color: "white",
+      color: "#4d0000",
       linewidth: 2.0
     });
 
@@ -293,8 +293,8 @@
   function stargaze(star){
         var star = stars[i];
         console.log("Star "+star);
-        controls.target = star;
-        controls.update();
+        //controls.target = star;
+        //controls.update();
         if(i > 0){
           var prevStar = stars[i-1];
           constellationGeo = new THREE.Geometry();
@@ -308,8 +308,8 @@
 
         i++;
         if(i == stars.length){
-          /*setTimeout(function(){
-            controls = new THREE.OrbitControls(camera, element);
+          setTimeout(function(){
+            /*controls = new THREE.OrbitControls(camera, element);
             controls.target.set(
               camera.position.x + 0.15,
               camera.position.y,

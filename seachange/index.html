@@ -132,9 +132,10 @@
 
     d.forEach(function (d,i) {
       unfiltered[i] = {
-        x: +d.ZIP,
+        x: +d.Index,
         y: +d.FiveFoot,
-        z: 0
+        z: 0,
+        ZIP: +d.ZIP
       };
 
       console.log(unfiltered[i]);
@@ -306,7 +307,7 @@
           scene.add(line);
         }
         text.innerHTML = "";
-        text.innerHTML = "County ZIP: "+unfiltered[i].x+" ,Percent population at risk: "+unfiltered[i].y;
+        text.innerHTML = "County ZIP: "+unfiltered[i].ZIP+" ,Percent population at risk: "+unfiltered[i].y;
 
         i++;
         if(i == stars.length){

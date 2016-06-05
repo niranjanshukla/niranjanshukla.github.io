@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Revenue growth with stargazing</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <style>
+  body {
+    margin: 0px;
+    overflow: hidden;
+  }
+
+  #webglviewer {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="webglviewer"></div>
+
+  <script src="./js/three.min.js"></script>
+  <script src="./js/StereoEffect.js"></script>
+  <script src="./js/DeviceOrientationControls.js"></script>
+  <script src="./js/OrbitControls.js"></script>
+  <script src="./js/d3.v3.min.js"></script>
+  <script src="http://d3js.org/queue.v1.min.js"></script>
+
+  <script>
+  var scene,
+  camera,
+  renderer,
+  element,
+  container,
+  effect,
+  controls,
+  clock,
+  pointGeo,
+  constellationGeo,
+  raycaster,
+  mouse,
+  text,
+  refresh,
+  scatterPlot = new THREE.Object3D(),
+  stars = [],
+  unfiltered = [],
+  format = d3.format("+.3f"),
+  initView = true,
+  material,
+  lineMaterial,
+  points;
+
+  init();
+
+  function init() {
+    renderer = new THREE.WebGLRenderer();
+    effect = new THREE.StereoEffect(renderer);
+    //raycaster = new THREE.Raycaster();
+    document.body.appendChild(renderer.domElement);
+    container = document.getElementById('webglviewer');
+    lineMaterial = new THREE.LineBasicMaterial({
+      color: "white",
+      linewidth: 2.0
+    });
+
+    text = document.createElement('div');
+    text.style.position = 'absolute';
+    text.style.width = 60;
+    text.style.height = 40;
+    text.style["font-weight"] = 'bold';
+    text.style.color = "white";
+    text.style.top = '0px';
+    text.style.left = '0px';
+    text.innerHTML = "National Geographic revenue <-- -- --";
+
+    document.body.appendChild(text);
+
+    camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.001, 700);
+    camera.position.set(0, -70, -20);
+    scene = new THREE.Scene();
+    //scene.add(camera);
+    controls = new THREE.OrbitControls(camera, element);
+    controls.target.set(
+      camera.position.x + 0.15,
+      camera.position.y,
+      camera.position.z
+    );
+    controls.noPan = true;
+    controls.noZoom = true;
+    /*controls.target = new THREE.Vector3(-50+0.15,-39.142,-50);
+    controls.update();*/
+    // Our preferred controls via DeviceOrientation
+    function setOrientationControls(e) {
+      console.log('entered setOrientationControls');
+      //initView = false;
+      if (!e.alpha) {
+        return;
+      }
+
+      controls = new THREE.DeviceOrientationControls(camera, true);
+      controls.connect();
+      //controls.update();
+
+      element.addEventListener('click', fullscreen, false);
+
+      window.removeEventListener('deviceorientation', setOrientationControls, true);
+    }
+    window.addEventListener('deviceorientation', setOrientationControls, true);
+
+
+    material = new THREE.LineBasicMaterial({
+      color: 0x0000ff
+    });
+
+    queue()
+    .defer(d3.csv, './data/nike_rev.csv')
+    .await(load);
+  }
+
+
+
+
+  function load(error, d) {
+
+    d.forEach(function (d,i) {
+      unfiltered[i] = {
+        x: +d.Year,
+        y: +d.Revenue,
+        z: 0
+      };
+
+    })
+    var xExent = d3.extent(unfiltered, function (d) {return d.x; }),
+    yExent = d3.extent(unfiltered, function (d) {return d.y; }),
+    zExent = d3.extent(unfiltered, function (d) {return d.z; });
+    var vpts = {
+      xMax: xExent[1],
+      xCen: (xExent[1] + xExent[0]) / 2,
+      xMin: xExent[0],
+      yMax: yExent[1],
+      yCen: (yExent[1] + yExent[0]) / 2,
+      yMin: yExent[0],
+      zMax: zExent[1],
+      zCen: (zExent[1] + zExent[0]) / 2,
+      zMin: zExent[0]
+    }
+    var colour = d3.scale.category20c();
+    var xScale = d3.scale.linear()
+    .domain(xExent)
+    .range([-50,50]);
+    var yScale = d3.scale.linear()
+    .domain(yExent)
+    .range([-50,50]);
+    var zScale = d3.scale.linear()
+    .domain(zExent)
+    .range([-50,50]);
+
+
+    var mat = new THREE.PointCloudMaterial({
+      size: 0.8,
+      color: "#4da6ff"
+    });
+
+    var pointCount = unfiltered.length;
+    pointGeo = new THREE.Geometry();
+
+
+    //var lineGeometry = new THREE.Geometry();
+    for (var i = 0; i < pointCount; i ++) {
+      var x = xScale(unfiltered[i].x);
+      var y = yScale(unfiltered[i].y);
+      var z = zScale(unfiltered[i].z);
+
+      var star = new THREE.Vector3(x,y,z);
+      console.log("star "+star);
+      pointGeo.vertices.push(star);
+      //lineGeometry.vertices.push(new THREE.Vector3(x, y, z));
+
+      stars.push(star);
+      console.log(pointGeo.vertices);
+      pointGeo.colors.push(new THREE.Color().setRGB(
+        hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255
+      ));
+    }
+
+    //line.translateZ(90);
+    //line.translateY(10);
+
+    points = new THREE.PointCloud(pointGeo, mat);
+    scatterPlot.add(points);
+    //scatterPlot.translateZ(90);
+    //scatterPlot.translateY(10)
+    scene.add(scatterPlot);
+    //refresh = window.setInterval(stargaze, 5000);
+
+    // creation of a big sphere geometry
+    var sphere = new THREE.Mesh(
+			new THREE.SphereGeometry(100, 20, 20),
+			new THREE.MeshBasicMaterial({
+				map: THREE.ImageUtils.loadTexture('./img/sky2.jpg')
+			})
+		);
+		sphere.scale.x = -1;
+		scene.add(sphere);
+    clock = new THREE.Clock();
+    animate();
+    effect.render(scene, camera);
+  }
+
+
+  function animate() {
+    var elapsedSeconds = clock.getElapsedTime();
+    requestAnimationFrame(animate);
+    /*raycaster.setFromCamera( new THREE.Vector3(), camera );
+    var intersects = raycaster.intersectObjects( scatterPlot.children );
+    if ( intersects.length > 0 ) {
+      alert(intersects.length);
+    }*/
+    update(clock.getDelta());
+    render(clock.getDelta());
+  }
+
+  function update(dt) {
+    resize();
+    camera.updateProjectionMatrix();
+    controls.update(dt);
+  }
+
+  function render(dt) {
+    /*if(initView)
+      camera.lookAt(new THREE.Vector3(-50,-39.142,-50));*/
+    effect.render(scene, camera);
+  }
+
+  function resize() {
+    var width = container.offsetWidth;
+    var height = container.offsetHeight;
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(width, height);
+    effect.setSize(width, height);
+  }
+
+  function hexToRgb(hex) { //TODO rewrite with vector output
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  }
+
+
+
+
+  function fullscreen() {
+    if (container.requestFullscreen) {
+      container.requestFullscreen();
+    } else if (container.msRequestFullscreen) {
+      container.msRequestFullscreen();
+    } else if (container.mozRequestFullScreen) {
+      container.mozRequestFullScreen();
+    } else if (container.webkitRequestFullscreen) {
+      container.webkitRequestFullscreen();
+    }
+  }
+
+
+
+  var i = 0;
+  function stargaze(star){
+        var star = stars[i];
+        console.log("Star "+star);
+        controls.target = star;
+        controls.update();
+        if(i > 0){
+          var prevStar = stars[i-1];
+          constellationGeo = new THREE.Geometry();
+          constellationGeo.vertices.push(prevStar);
+          constellationGeo.vertices.push(star);
+          var line = new THREE.Line(constellationGeo, lineMaterial);
+          scene.add(line);
+        }
+        text.innerHTML = "";
+        text.innerHTML = "Year: "+unfiltered[i].x+" ,Revenue: "+unfiltered[i].y;
+
+        i++;
+        if(i == stars.length){
+          setTimeout(function(){
+            controls = new THREE.OrbitControls(camera, element);
+            controls.target.set(
+              camera.position.x + 0.15,
+              camera.position.y,
+              camera.position.z
+            );
+            controls.noPan = true;
+            controls.noZoom = true;
+            text.innerHTML = "Now that's a success story!";
+            window.clearInterval(refresh);
+          },5000);
+        }
+  }
+
+  </script>
+</body>
+
+</html>

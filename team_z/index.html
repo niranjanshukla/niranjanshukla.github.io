@@ -284,6 +284,10 @@
         map: THREE.ImageUtils.loadTexture('./img/'+images[i])
       })
     );
+    scene.add(sphere);
+    clock = new THREE.Clock();
+    animate();
+    effect.render(scene, camera);
 
         i++;
         if(i == images.length){

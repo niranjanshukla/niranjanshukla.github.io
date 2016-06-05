@@ -46,7 +46,7 @@ found in the LICENSE file.
     <script src="js/third-party/wglu/wglu-url.js"></script>
     <script>
       // Dynamically turn the polyfill on if requested by the query args.
-      if (WGLUUrl.getBool('polyfill', false)) { InitializeWebVRPolyfill(); }
+      if (WGLUUrl.getBool('polyfill', true)) { InitializeWebVRPolyfill(); }
     </script>
     <!-- End sample polyfill enabling logic -->
 

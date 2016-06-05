@@ -53,7 +53,9 @@
   initView = true,
   material,
   lineMaterial,
-  points;
+  points,
+  sphere,
+  images = ['cause_backyard.jpg', 'cause_construction.jpg','cause_garage.jpg','cause_standing_water.jpg','prevention_bednet.jpg','prevention_screen.jpg','prevention-outdor-spray.jpg'];
 
   init();
 
@@ -196,10 +198,10 @@
     //scatterPlot.translateZ(90);
     //scatterPlot.translateY(10)
     scene.add(scatterPlot);
-    //refresh = window.setInterval(stargaze, 5000);
+    refresh = window.setInterval(stargaze, 5000);
 
     // creation of a big sphere geometry
-    var sphere = new THREE.Mesh(
+    sphere = new THREE.Mesh(
 			new THREE.SphereGeometry(100, 20, 20),
 			new THREE.MeshBasicMaterial({
 				map: THREE.ImageUtils.loadTexture('./img/cause_standing_water.jpg')
@@ -276,33 +278,16 @@
 
   var i = 0;
   function stargaze(star){
-        var star = stars[i];
-        console.log("Star "+star);
-        controls.target = star;
-        controls.update();
-        if(i > 0){
-          var prevStar = stars[i-1];
-          constellationGeo = new THREE.Geometry();
-          constellationGeo.vertices.push(prevStar);
-          constellationGeo.vertices.push(star);
-          var line = new THREE.Line(constellationGeo, lineMaterial);
-          scene.add(line);
-        }
-        text.innerHTML = "";
-        text.innerHTML = "Year: "+unfiltered[i].x+" ,Revenue: "+unfiltered[i].y;
+    sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(100, 20, 20),
+      new THREE.MeshBasicMaterial({
+        map: THREE.ImageUtils.loadTexture('./img/'+images[i]);
+      })
+    );
 
         i++;
-        if(i == stars.length){
+        if(i == images.length){
           setTimeout(function(){
-            controls = new THREE.OrbitControls(camera, element);
-            controls.target.set(
-              camera.position.x + 0.15,
-              camera.position.y,
-              camera.position.z
-            );
-            controls.noPan = true;
-            controls.noZoom = true;
-            text.innerHTML = "Now that's a success story!";
             window.clearInterval(refresh);
           },5000);
         }

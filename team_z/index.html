@@ -212,19 +212,6 @@
     clock = new THREE.Clock();
     animate();
     effect.render(scene, camera);
-    setTimeout(function(){
-      sphere = new THREE.Mesh(
-  			new THREE.SphereGeometry(100, 20, 20),
-  			new THREE.MeshBasicMaterial({
-  				map: THREE.ImageUtils.loadTexture('./img/cause_backyard.JPG')
-  			})
-  		);
-  		sphere.scale.x = -1;
-  		scene.add(sphere);
-      clock = new THREE.Clock();
-      animate();
-      effect.render(scene, camera);
-    },5000);
   }
 
 
@@ -298,9 +285,10 @@
         map: THREE.ImageUtils.loadTexture('./img/'+images[i])
       })
     );
+    sphere.scale.x = -1;
     scene.add(sphere);
-    //clock = new THREE.Clock();
-    //animate();
+    clock = new THREE.Clock();
+    animate();
     effect.render(scene, camera);
 
         i++;

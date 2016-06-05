@@ -198,13 +198,13 @@
     //scatterPlot.translateZ(90);
     //scatterPlot.translateY(10)
     scene.add(scatterPlot);
-    refresh = window.setInterval(stargaze, 20000);
+  //refresh = window.setInterval(stargaze, 20000);
 
     // creation of a big sphere geometry
     sphere = new THREE.Mesh(
 			new THREE.SphereGeometry(100, 20, 20),
 			new THREE.MeshBasicMaterial({
-				map: THREE.ImageUtils.loadTexture('./img/cause_standing_water.jpg')
+				map: THREE.ImageUtils.loadTexture('./img/cause_backyard.JPG')
 			})
 		);
 		sphere.scale.x = -1;

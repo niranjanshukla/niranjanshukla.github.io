@@ -55,7 +55,7 @@
   lineMaterial,
   points,
   sphere,
-  images = ['cause_backyard.JPG', 'cause_construction.JPG','cause_garage.JPG','cause_standing_water.jpg','prevention_bednet.jpg','prevention_screen.JPG','prevention-outdor-spray.jpg'];
+  images = ['cause_backyard.JPG', 'cause_construction.JPG','cause_garage.JPG','cause_standing_water.jpg','prevention_bednet.jpg','prevention_screen.JPG','prevention-outdoor-spray.jpg'];
 
   init();
 
@@ -278,6 +278,7 @@
 
   var i = 0;
   function stargaze(star){
+    if(i < images.length){
     sphere = new THREE.Mesh(
       new THREE.SphereGeometry(100, 20, 20),
       new THREE.MeshBasicMaterial({
@@ -290,6 +291,7 @@
     effect.render(scene, camera);
 
         i++;
+      }
         if(i == images.length){
           setTimeout(function(){
             window.clearInterval(refresh);

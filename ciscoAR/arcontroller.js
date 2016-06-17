@@ -109,7 +109,7 @@ window.addEventListener('load', function() {
 
           awe.projections.add({
             id: 'ar_button_one_text',
-            geometry: shape: 'sphere', radius: 10},
+            geometry: {shape: 'sphere', radius: 10},
             rotation: {y: 45},
             position: {x: -5, y: -95, z: -5},
             material: {

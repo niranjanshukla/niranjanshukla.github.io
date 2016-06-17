@@ -107,17 +107,6 @@ window.addEventListener('load', function() {
               }
           }, {poi_id: 'marker'});
 
-          awe.projections.add({
-            id: 'ar_button_one_text',
-            geometry: {shape: 'sphere', radius: 10},
-            rotation: {y: 45},
-            position: {x: -5, y: -95, z: -5},
-            material: {
-              type: 'phong',
-              color: 0xFF0000
-            }
-        }, {poi_id: 'marker'});
-
 
             awe.events.add([{
               id: 'ar_tracking_marker',
@@ -231,9 +220,10 @@ window.addEventListener('load', function() {
                     animation: {
                       duration: 1
                     },
-                    position: {y: -25}
+                    geometry: {shape: 'text', text: "Cisco"},
+                    position: {y: -31}
                   },
-                  where: {id: 'ar_button_one_text'}
+                  where: {id: 'ar_button_one'}
                 });
                 break;
 

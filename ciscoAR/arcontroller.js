@@ -112,12 +112,12 @@ window.addEventListener('load', function() {
               id: 'ar_button_seven',
               geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
-              position: {x: -5, y: -31, z: -5},
+              position: {x: -15, y: -72, z: -5},
               material: {
                 type: 'phong',
                 color: 0x8000FF
               }
-          }, {poi_id: 'marker'});*/
+          }, {poi_id: 'marker'});
 
             awe.events.add([{
               id: 'ar_tracking_marker',

@@ -137,9 +137,9 @@ window.addEventListener('load', function() {
 
                       awe.projections.update({
                         data: {
-                          animation: {
+                          /*animation: {
                             duration: 1
-                          },
+                        },*/
                           position: {y: -31}
                         },
                         where: {id: 'ar_button_one'}
@@ -147,9 +147,9 @@ window.addEventListener('load', function() {
 
                       awe.projections.update({
                         data: {
-                          animation: {
+                          /*animation: {
                             duration: 1
-                          },
+                        },*/
                           position: {y: -31}
                         },
                         where: {id: 'ar_button_two'}
@@ -157,9 +157,9 @@ window.addEventListener('load', function() {
 
                       awe.projections.update({
                         data: {
-                          animation: {
+                          /*animation: {
                             duration: 1
-                          },
+                        },*/
                           position: {y: -31}
                         },
                         where: {id: 'ar_button_three'}
@@ -167,9 +167,9 @@ window.addEventListener('load', function() {
 
                       awe.projections.update({
                         data: {
-                          animation: {
+                          /*animation: {
                             duration: 1
-                          },
+                        },*/
                           position: {y: 61}
                         },
                         where: {id: 'ar_button_four'}
@@ -177,9 +177,9 @@ window.addEventListener('load', function() {
 
                       awe.projections.update({
                         data: {
-                          animation: {
+                          /*animation: {
                             duration: 1
-                          },
+                        },*/
                           position: {y: -25}
                         },
                         where: {id: 'ar_button_five'}
@@ -187,9 +187,9 @@ window.addEventListener('load', function() {
 
                       awe.projections.update({
                         data: {
-                          animation: {
+                          /*animation: {
                             duration: 1
-                          },
+                        },*/
                           position: {y: -61}
                         },
                         where: {id: 'ar_button_six'}
@@ -197,9 +197,9 @@ window.addEventListener('load', function() {
 
                       awe.projections.update({
                         data: {
-                          animation: {
+                          /*animation: {
                             duration: 1
-                          },
+                        },*/
                           position: {y: -82}
                         },
                         where: {id: 'ar_button_seven'}

@@ -215,83 +215,26 @@ window.addEventListener('load', function() {
 
             window.addEventListener('object_clicked', function(e) {
               switch (e.detail.projection_id) {
-                case 'ar_button_one': awe.projections.update({
-                  data: {
-                    animation: {
-                      duration: 1
-                    },
-                    geometry: {shape: 'text', text: "Cisco"},
-                    position: {y: -31}
-                  },
-                  where: {id: 'ar_button_one'}
-                });
+                case 'ar_button_one': alert("Cisco");
                 break;
 
                 case 'ar_button_two':
-                awe.projections.update({
-                  data: {
-                    animation: {
-                      duration: 1
-                    },
-                    position: {y: -25}
-                  },
-                  where: {id: 'ar_button_two_text'}
-                });
+                alert("Juniper Networks");
                 break;
                 case 'ar_button_three':
-                awe.projections.update({
-                  data: {
-                    animation: {
-                      duration: 1
-                    },
-                    position: {y: -25}
-                  },
-                  where: {id: 'ar_button_three_text'}
-                });
+                alert("Palo Alto Networks");
                 break;
                 case 'ar_button_four':
-                awe.projections.update({
-                  data: {
-                    animation: {
-                      duration: 1
-                    },
-                    position: {y: -70}
-                  },
-                  where: {id: 'ar_button_four_text'}
-                });
+                alert("Aruba Networks");
                 break;
                 case 'ar_button_five':
-                awe.projections.update({
-                  data: {
-                    animation: {
-                      duration: 1
-                    },
-                    position: {y: -20}
-                  },
-                  where: {id: 'ar_button_five_text'}
-                });
+                alert("HPE");
                 break;
                 case 'ar_button_six':
-                awe.projections.update({
-                  data: {
-                    animation: {
-                      duration: 1
-                    },
-                    position: {y: -70}
-                  },
-                  where: {id: 'ar_button_six_text'}
-                });
+                alert("Brocade");
                 break;
                 case 'ar_button_seven':
-                awe.projections.update({
-                  data: {
-                    animation: {
-                      duration: 1
-                    },
-                    position: {y: -90}
-                  },
-                  where: {id: 'ar_button_seven_text'}
-                });
+                alert("Alcatel-Lucent");
                 break;
               }
             }, false);

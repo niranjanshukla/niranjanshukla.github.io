@@ -44,7 +44,7 @@ window.addEventListener('load', function() {
 
             awe.projections.add({
               id: 'ar_button_one',
-              geometry: {shape: 'circle', x: 60, y: 30, z: 5},
+              geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
               position: {x: -5, y: -31, z: -5},
               material: {
@@ -55,7 +55,7 @@ window.addEventListener('load', function() {
 
             awe.projections.add({
               id: 'ar_button_two',
-              geometry: {shape: 'circle', x: 60, y: 30, z: 5},
+              geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
               position: {x: -5, y: -31, z: -5},
               material: {
@@ -66,7 +66,7 @@ window.addEventListener('load', function() {
 
             awe.projections.add({
               id: 'ar_button_three',
-              geometry: {shape: 'circle', x: 110, y: 30, z: 5},
+              geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
               position: {x: -5, y: -31, z: -5},
               material: {
@@ -77,7 +77,7 @@ window.addEventListener('load', function() {
 
             awe.projections.add({
               id: 'ar_button_four',
-              geometry: {shape: 'circle', x: 150, y: 30, z: 5},
+              geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
               position: {x: -5, y: -31, z: -5},
               material: {
@@ -88,7 +88,7 @@ window.addEventListener('load', function() {
 
             awe.projections.add({
               id: 'ar_button_five',
-              geometry: {shape: 'circle', x: 180, y: 30, z: 5},
+              geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
               position: {x: -5, y: -31, z: -5},
               material: {
@@ -99,7 +99,7 @@ window.addEventListener('load', function() {
 
             awe.projections.add({
               id: 'ar_button_six',
-              geometry: {shape: 'circle', x: 150, y: 30, z: 5},
+              geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
               position: {x: -5, y: -31, z: -5},
               material: {
@@ -110,7 +110,7 @@ window.addEventListener('load', function() {
 
             awe.projections.add({
               id: 'ar_button_seven',
-              geometry: {shape: 'circle', x: 100, y: 30, z: 5},
+              geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
               position: {x: -5, y: -31, z: -5},
               material: {

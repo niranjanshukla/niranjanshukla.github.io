@@ -109,7 +109,7 @@ window.addEventListener('load', function() {
 
           awe.projections.add({
             id: 'ar_button_one_text',
-            geometry: {shape: 'text', text: 'Cisco', parameters: {
+            geometry: {shape: 'text', text: "Cisco", parameters: {
                 size: 20,
                 height: 8,
                 curveSegments: 2,
@@ -121,7 +121,7 @@ window.addEventListener('load', function() {
               type: 'phong',
               color: 0xFF0000
             }
-          }, {poi_id: 'marker'});
+        }, {poi_id: 'marker'});
 
 
             awe.events.add([{

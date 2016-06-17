@@ -31,7 +31,7 @@ window.addEventListener('load', function() {
             awe.pois.add({id: 'marker', position: {x: 0, y: 0, z: 10000}, visible: false});
 
             // Projections
-            awe.projections.add({
+            /*awe.projections.add({
               id: 'wormhole',
               geometry: {shape: 'plane', height: 80, width: 80},
               position: {x: 0, y: 0, z: 0},
@@ -40,7 +40,7 @@ window.addEventListener('load', function() {
                 type: 'phong',
                 color: 0x000000
               }
-            }, {poi_id: 'marker'});
+          }, {poi_id: 'marker'});*/
 
             awe.projections.add({
               id: 'ar_button_one',
@@ -144,33 +144,80 @@ window.addEventListener('load', function() {
                         id: 'marker'
                       }
                     });
-                    awe.projections.update({
-                      data: {
-                        visible: true
-                      },
-                      where: {
-                        id: 'wormhole'
-                      }
-                    });
-                  } else if (menu_open) {
-                    awe.projections.update({
-                      data: {
-                        visible: false
-                      },
-                      where: {
-                        id: 'wormhole'
-                      }
-                    });
-                  }
-                  else {
-                    awe.pois.update({
-                      data: {
-                        visible: false
-                      },
-                      where: {
-                        id: 'marker'
-                      }
-                    });
+
+
+                      awe.projections.update({
+                        data: {
+                          animation: {
+                            duration: 1
+                          },
+                          position: {y: 35}
+                        },
+                        where: {id: 'ar_button_one'}
+                      });
+
+                      awe.projections.update({
+                        data: {
+                          animation: {
+                            duration: 1
+                          },
+                          position: {y: 70}
+                        },
+                        where: {id: 'ar_button_two'}
+                      });
+
+                      awe.projections.update({
+                        data: {
+                          animation: {
+                            duration: 1
+                          },
+                          position: {y: 105}
+                        },
+                        where: {id: 'ar_button_three'}
+                      });
+
+                      awe.projections.update({
+                        data: {
+                          animation: {
+                            duration: 1
+                          },
+                          position: {y: 140}
+                        },
+                        where: {id: 'ar_button_four'}
+                      });
+
+                      awe.projections.update({
+                        data: {
+                          animation: {
+                            duration: 1
+                          },
+                          position: {y: 175}
+                        },
+                        where: {id: 'ar_button_five'}
+                      });
+
+                      awe.projections.update({
+                        data: {
+                          animation: {
+                            duration: 1
+                          },
+                          position: {y: 210}
+                        },
+                        where: {id: 'ar_button_six'}
+                      });
+
+                      awe.projections.update({
+                        data: {
+                          animation: {
+                            duration: 1
+                          },
+                          position: {y: 245}
+                        },
+                        where: {id: 'ar_button_seven'}
+                      });
+
+
+
                   }
                   awe.scene_needs_rendering = 1;
                 }
@@ -179,151 +226,6 @@ window.addEventListener('load', function() {
 
             window.addEventListener('object_clicked', function(e) {
               switch (e.detail.projection_id) {
-                case 'wormhole':
-                  if (!menu_open) {
-                    awe.projections.update({
-                      data: {
-                        animation: {
-                          duration: 1
-                        },
-                        position: {y: 35}
-                      },
-                      where: {id: 'ar_button_one'}
-                    });
-
-                    awe.projections.update({
-                      data: {
-                        animation: {
-                          duration: 1
-                        },
-                        position: {y: 70}
-                      },
-                      where: {id: 'ar_button_two'}
-                    });
-
-                    awe.projections.update({
-                      data: {
-                        animation: {
-                          duration: 1
-                        },
-                        position: {y: 105}
-                      },
-                      where: {id: 'ar_button_three'}
-                    });
-
-                    awe.projections.update({
-                      data: {
-                        animation: {
-                          duration: 1
-                        },
-                        position: {y: 140}
-                      },
-                      where: {id: 'ar_button_four'}
-                    });
-
-                    awe.projections.update({
-                      data: {
-                        animation: {
-                          duration: 1
-                        },
-                        position: {y: 175}
-                      },
-                      where: {id: 'ar_button_five'}
-                    });
-
-                    awe.projections.update({
-                      data: {
-                        animation: {
-                          duration: 1
-                        },
-                        position: {y: 210}
-                      },
-                      where: {id: 'ar_button_six'}
-                    });
-
-                    awe.projections.update({
-                      data: {
-                        animation: {
-                          duration: 1
-                        },
-                        position: {y: 245}
-                      },
-                      where: {id: 'ar_button_seven'}
-                    });
-                  } else {
-                    awe.projections.update({
-                      data: {
-                        animation: {
-                          duration: 1
-                        },
-                        position: {y: -31}
-                      },
-                      where: {id: 'ar_button_one'}
-                    });
-
-                    awe.projections.update({
-                      data: {
-                        animation: {
-                          duration: 1
-                        },
-                        position: {y: -31}
-                      },
-                      where: {id: 'ar_button_two'}
-                    });
-
-                    awe.projections.update({
-                      data: {
-                        animation: {
-                          duration: 1
-                        },
-                        position: {y: -31}
-                      },
-                      where: {id: 'ar_button_three'}
-                    });
-
-                    awe.projections.update({
-                      data: {
-                        animation: {
-                          duration: 1
-                        },
-                        position: {y: -31}
-                      },
-                      where: {id: 'ar_button_four'}
-                    });
-
-                    awe.projections.update({
-                      data: {
-                        animation: {
-                          duration: 1
-                        },
-                        position: {y: -31}
-                      },
-                      where: {id: 'ar_button_five'}
-                    });
-
-                    awe.projections.update({
-                      data: {
-                        animation: {
-                          duration: 1
-                        },
-                        position: {y: -31}
-                      },
-                      where: {id: 'ar_button_six'}
-                    });
-
-                    awe.projections.update({
-                      data: {
-                        animation: {
-                          duration: 1
-                        },
-                        position: {y: -31}
-                      },
-                      where: {id: 'ar_button_seven'}
-                    });
-                  }
-
-                  menu_open = !menu_open;
-                break;
                 case 'ar_button_one':
                 case 'ar_button_two':
                 case 'ar_button_three':

@@ -57,7 +57,7 @@ window.addEventListener('load', function() {
               id: 'ar_button_two',
               geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
-              position: {x: 25, y: -31, z: -5},
+              position: {x: 45, y: -31, z: -5},
               material: {
                 type: 'phong',
                 color: 0xFF6600
@@ -68,7 +68,7 @@ window.addEventListener('load', function() {
               id: 'ar_button_three',
               geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
-              position: {x: 45, y: -31, z: -5},
+              position: {x: 75, y: -31, z: -5},
               material: {
                 type: 'phong',
                 color: 0xFFFF00
@@ -79,7 +79,7 @@ window.addEventListener('load', function() {
               id: 'ar_button_four',
               geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
-              position: {x: 35, y: 31, z: -5},
+              position: {x: 60, y: 61, z: -5},
               material: {
                 type: 'phong',
                 color: 0xFFFFFF
@@ -90,7 +90,7 @@ window.addEventListener('load', function() {
               id: 'ar_button_five',
               geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
-              position: {x: -45, y: -25, z: -5},
+              position: {x: -75, y: -25, z: -5},
               material: {
                 type: 'phong',
                 color: 0x00FF00
@@ -101,7 +101,7 @@ window.addEventListener('load', function() {
               id: 'ar_button_six',
               geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
-              position: {x: -25, y: -61, z: -5},
+              position: {x: -45, y: -61, z: -5},
               material: {
                 type: 'phong',
                 color: 0x0080FF
@@ -112,7 +112,7 @@ window.addEventListener('load', function() {
               id: 'ar_button_seven',
               geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
-              position: {x: -15, y: -72, z: -5},
+              position: {x: -30, y: -82, z: -5},
               material: {
                 type: 'phong',
                 color: 0x8000FF

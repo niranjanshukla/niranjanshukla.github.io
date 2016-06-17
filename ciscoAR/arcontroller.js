@@ -134,7 +134,79 @@ window.addEventListener('load', function() {
                     });
 
 
-                                        }
+                      awe.projections.update({
+                        data: {
+                          animation: {
+                            duration: 1
+                          },
+                          position: {y: -31}
+                        },
+                        where: {id: 'ar_button_one'}
+                      });
+
+                      awe.projections.update({
+                        data: {
+                          animation: {
+                            duration: 1
+                          },
+                          position: {y: -31}
+                        },
+                        where: {id: 'ar_button_two'}
+                      });
+
+                      awe.projections.update({
+                        data: {
+                          animation: {
+                            duration: 1
+                          },
+                          position: {y: -31}
+                        },
+                        where: {id: 'ar_button_three'}
+                      });
+
+                      awe.projections.update({
+                        data: {
+                          animation: {
+                            duration: 1
+                          },
+                          position: {y: 61}
+                        },
+                        where: {id: 'ar_button_four'}
+                      });
+
+                      awe.projections.update({
+                        data: {
+                          animation: {
+                            duration: 1
+                          },
+                          position: {y: -25}
+                        },
+                        where: {id: 'ar_button_five'}
+                      });
+
+                      awe.projections.update({
+                        data: {
+                          animation: {
+                            duration: 1
+                          },
+                          position: {y: -61}
+                        },
+                        where: {id: 'ar_button_six'}
+                      });
+
+                      awe.projections.update({
+                        data: {
+                          animation: {
+                            duration: 1
+                          },
+                          position: {y: -82}
+                        },
+                        where: {id: 'ar_button_seven'}
+                      });
+
+
+
+                  }
                   awe.scene_needs_rendering = 1;
                 }
               }

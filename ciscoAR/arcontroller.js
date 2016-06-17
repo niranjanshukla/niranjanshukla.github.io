@@ -214,8 +214,7 @@ window.addEventListener('load', function() {
             }]);
 
             window.addEventListener('object_clicked', function(e) {
-                alert('clicked '+e.detail.projection_id);
-              switch (e.detail.projection_id) {
+                switch (e.detail.projection_id) {
                 case 'ar_button_one': alert("Cisco");
                 break;
 

@@ -17,7 +17,7 @@ window.addEventListener('load', function() {
       awe.util.require([
         {
           capabilities: ['gum','webgl'],
-          files: [ 
+          files: [
             ['lib/awe-standard-dependencies.js', 'lib/awe-standard.js'],
             'lib/awe-standard-window_resized.js',
             'lib/awe-standard-object_clicked.js',
@@ -31,7 +31,7 @@ window.addEventListener('load', function() {
             awe.pois.add({id: 'marker', position: {x: 0, y: 0, z: 10000}, visible: false});
 
             // Projections
-            awe.projections.add({ 
+            awe.projections.add({
               id: 'wormhole',
               geometry: {shape: 'plane', height: 400, width: 400},
               position: {x: 0, y: 0, z: 0},
@@ -44,7 +44,7 @@ window.addEventListener('load', function() {
 
             awe.projections.add({
               id: 'ar_button_one',
-              geometry: {shape: 'cube', x: 60, y: 30, z: 5},
+              geometry: {shape: 'circle', x: 60, y: 30, z: 5},
               rotation: {y: 45},
               position: {x: -5, y: -31, z: -5},
               material: {
@@ -55,7 +55,7 @@ window.addEventListener('load', function() {
 
             awe.projections.add({
               id: 'ar_button_two',
-              geometry: {shape: 'cube', x: 60, y: 30, z: 5},
+              geometry: {shape: 'circle', x: 60, y: 30, z: 5},
               rotation: {y: 45},
               position: {x: -5, y: -31, z: -5},
               material: {
@@ -66,7 +66,7 @@ window.addEventListener('load', function() {
 
             awe.projections.add({
               id: 'ar_button_three',
-              geometry: {shape: 'cube', x: 110, y: 30, z: 5},
+              geometry: {shape: 'circle', x: 110, y: 30, z: 5},
               rotation: {y: 45},
               position: {x: -5, y: -31, z: -5},
               material: {
@@ -77,7 +77,7 @@ window.addEventListener('load', function() {
 
             awe.projections.add({
               id: 'ar_button_four',
-              geometry: {shape: 'cube', x: 150, y: 30, z: 5},
+              geometry: {shape: 'circle', x: 150, y: 30, z: 5},
               rotation: {y: 45},
               position: {x: -5, y: -31, z: -5},
               material: {
@@ -88,7 +88,7 @@ window.addEventListener('load', function() {
 
             awe.projections.add({
               id: 'ar_button_five',
-              geometry: {shape: 'cube', x: 180, y: 30, z: 5},
+              geometry: {shape: 'circle', x: 180, y: 30, z: 5},
               rotation: {y: 45},
               position: {x: -5, y: -31, z: -5},
               material: {
@@ -99,7 +99,7 @@ window.addEventListener('load', function() {
 
             awe.projections.add({
               id: 'ar_button_six',
-              geometry: {shape: 'cube', x: 150, y: 30, z: 5},
+              geometry: {shape: 'circle', x: 150, y: 30, z: 5},
               rotation: {y: 45},
               position: {x: -5, y: -31, z: -5},
               material: {
@@ -110,7 +110,7 @@ window.addEventListener('load', function() {
 
             awe.projections.add({
               id: 'ar_button_seven',
-              geometry: {shape: 'cube', x: 100, y: 30, z: 5},
+              geometry: {shape: 'circle', x: 100, y: 30, z: 5},
               rotation: {y: 45},
               position: {x: -5, y: -31, z: -5},
               material: {
@@ -349,7 +349,7 @@ window.addEventListener('load', function() {
         },
         {
           capabilities: [],
-          success: function() { 
+          success: function() {
             document.body.innerHTML = '<p>Try this demo in the latest version of Chrome or Firefox on a PC or Android device</p>';
           }
         }

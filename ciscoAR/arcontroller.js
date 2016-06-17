@@ -109,7 +109,12 @@ window.addEventListener('load', function() {
 
           awe.projections.add({
             id: 'ar_button_one_text',
-            geometry: {shape: 'text', text: 'Cisco'},
+            geometry: {shape: 'text', text: 'Cisco', parameters: {
+                size: 20,
+                height: 8,
+                curveSegments: 2,
+                font: "helvetiker"
+            }},
             rotation: {y: 45},
             position: {x: -5, y: -25, z: -5},
             material: {

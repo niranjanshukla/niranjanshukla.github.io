@@ -75,11 +75,11 @@ window.addEventListener('load', function() {
               }
             }, {poi_id: 'marker'});
 
-            /*awe.projections.add({
+            awe.projections.add({
               id: 'ar_button_four',
               geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
-              position: {x: -5, y: -31, z: -5},
+              position: {x: 35, y: 31, z: -5},
               material: {
                 type: 'phong',
                 color: 0xFFFFFF
@@ -90,7 +90,7 @@ window.addEventListener('load', function() {
               id: 'ar_button_five',
               geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
-              position: {x: -5, y: -31, z: -5},
+              position: {x: -45, y: -25, z: -5},
               material: {
                 type: 'phong',
                 color: 0x00FF00
@@ -101,7 +101,7 @@ window.addEventListener('load', function() {
               id: 'ar_button_six',
               geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
-              position: {x: -5, y: -31, z: -5},
+              position: {x: -25, y: -61, z: -5},
               material: {
                 type: 'phong',
                 color: 0x0080FF

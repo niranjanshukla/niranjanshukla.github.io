@@ -33,7 +33,7 @@ window.addEventListener('load', function() {
             // Projections
             awe.projections.add({
               id: 'wormhole',
-              geometry: {shape: 'plane', height: 400, width: 400},
+              geometry: {shape: 'plane', height: 40, width: 40},
               position: {x: 0, y: 0, z: 0},
               rotation: {x: 90, z: 45},
               material: {
@@ -57,7 +57,7 @@ window.addEventListener('load', function() {
               id: 'ar_button_two',
               geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
-              position: {x: -5, y: -31, z: -5},
+              position: {x: 5, y: -31, z: -5},
               material: {
                 type: 'phong',
                 color: 0xFF6600
@@ -68,14 +68,14 @@ window.addEventListener('load', function() {
               id: 'ar_button_three',
               geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
-              position: {x: -5, y: -31, z: -5},
+              position: {x: 35, y: -31, z: -5},
               material: {
                 type: 'phong',
                 color: 0xFFFF00
               }
             }, {poi_id: 'marker'});
 
-            awe.projections.add({
+            /*awe.projections.add({
               id: 'ar_button_four',
               geometry: {shape: 'sphere', radius: 10},
               rotation: {y: 45},
@@ -117,7 +117,7 @@ window.addEventListener('load', function() {
                 type: 'phong',
                 color: 0x8000FF
               }
-            }, {poi_id: 'marker'});
+          }, {poi_id: 'marker'});*/
 
             awe.events.add([{
               id: 'ar_tracking_marker',

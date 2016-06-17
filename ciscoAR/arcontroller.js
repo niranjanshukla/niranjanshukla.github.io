@@ -107,6 +107,86 @@ window.addEventListener('load', function() {
               }
           }, {poi_id: 'marker'});
 
+          awe.projections.add({
+            id: 'ar_button_one_text',
+            geometry: {shape: 'text', text: 'Cisco'},
+            rotation: {y: 45},
+            position: {x: -5, y: -25, z: -5},
+            material: {
+              type: 'phong',
+              color: 0xFF0000
+            }
+          }, {poi_id: 'marker'});
+
+          awe.projections.add({
+            id: 'ar_button_two_text',
+            geometry: {shape: 'text', text: 'Juniper Networks'},
+            rotation: {y: 45},
+            position: {x: 45, y: -25, z: -5},
+            material: {
+              type: 'phong',
+              color: 0xFF6600
+            }
+          }, {poi_id: 'marker'});
+
+          awe.projections.add({
+            id: 'ar_button_three_text',
+            geometry: {shape: 'text', text: 'Palo Alto Networks'},
+            rotation: {y: 45},
+            position: {x: 75, y: -25, z: -5},
+            material: {
+              type: 'phong',
+              color: 0xFFFF00
+            }
+          }, {poi_id: 'marker'});
+
+          awe.projections.add({
+            id: 'ar_button_four_text',
+            geometry: {shape: 'text', text: 'Aruba Networks'},
+            rotation: {y: 45},
+            position: {x: 60, y: 70, z: -5},
+            material: {
+              type: 'phong',
+              color: 0xFFFFFF
+            }
+          }, {poi_id: 'marker'});
+
+          awe.projections.add({
+            id: 'ar_button_five_text',
+            geometry: {shape: 'text', text: 'HPE'},
+            rotation: {y: 45},
+            position: {x: -75, y: -20, z: -5},
+            material: {
+              type: 'phong',
+              color: 0x00FF00
+            }
+          }, {poi_id: 'marker'});
+
+          awe.projections.add({
+            id: 'ar_button_six_text',
+            geometry: {shape: 'text', text: 'Brocade'},
+            rotation: {y: 45},
+            position: {x: -45, y: -70, z: -5},
+            material: {
+              type: 'phong',
+              color: 0x0080FF
+            }
+          }, {poi_id: 'marker'});
+
+          awe.projections.add({
+            id: 'ar_button_seven_text',
+            geometry: {shape: 'text', text: 'Alcatel-Lucent'},
+            rotation: {y: 45},
+            position: {x: -30, y: -90, z: -5},
+            material: {
+              type: 'phong',
+              color: 0x8000FF
+            }
+        }, {poi_id: 'marker'});
+
+
+
+
             awe.events.add([{
               id: 'ar_tracking_marker',
               device_types: {
@@ -214,24 +294,82 @@ window.addEventListener('load', function() {
 
             window.addEventListener('object_clicked', function(e) {
               switch (e.detail.projection_id) {
-                case 'ar_button_one':
+                case 'ar_button_one': awe.projections.update({
+                  data: {
+                    animation: {
+                      duration: 1
+                    },
+                    position: {y: -25}
+                  },
+                  where: {id: 'ar_button_one_text'}
+                });
+                break;
+
                 case 'ar_button_two':
+                awe.projections.update({
+                  data: {
+                    animation: {
+                      duration: 1
+                    },
+                    position: {y: -25}
+                  },
+                  where: {id: 'ar_button_two_text'}
+                });
+                break;
                 case 'ar_button_three':
+                awe.projections.update({
+                  data: {
+                    animation: {
+                      duration: 1
+                    },
+                    position: {y: -25}
+                  },
+                  where: {id: 'ar_button_three_text'}
+                });
+                break;
                 case 'ar_button_four':
+                awe.projections.update({
+                  data: {
+                    animation: {
+                      duration: 1
+                    },
+                    position: {y: -70}
+                  },
+                  where: {id: 'ar_button_four_text'}
+                });
+                break;
                 case 'ar_button_five':
+                awe.projections.update({
+                  data: {
+                    animation: {
+                      duration: 1
+                    },
+                    position: {y: -20}
+                  },
+                  where: {id: 'ar_button_five_text'}
+                });
+                break;
                 case 'ar_button_six':
+                awe.projections.update({
+                  data: {
+                    animation: {
+                      duration: 1
+                    },
+                    position: {y: -70}
+                  },
+                  where: {id: 'ar_button_six_text'}
+                });
+                break;
                 case 'ar_button_seven':
-                  var request = new XMLHttpRequest();
-                  request.open('GET', 'http://maker.ifttt.com/trigger/'+e.detail.projection_id+'/with/key/yourkeyhere', true);
-
-                  request.onload = function() {
-                    if (request.status >= 200 && request.status < 400) {
-                      var data = JSON.parse(request.responseText);
-                      console.log(data);
-                    }
-                  };
-
-                  request.send();
+                awe.projections.update({
+                  data: {
+                    animation: {
+                      duration: 1
+                    },
+                    position: {y: -90}
+                  },
+                  where: {id: 'ar_button_seven_text'}
+                });
                 break;
               }
             }, false);

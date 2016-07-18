@@ -59,7 +59,7 @@
 
   function init() {
     renderer = new THREE.WebGLRenderer();
-    effect = new THREE.StereoEffect(renderer);
+    //effect = new THREE.StereoEffect(renderer);
     //raycaster = new THREE.Raycaster();
     document.body.appendChild(renderer.domElement);
     container = document.getElementById('webglviewer');
@@ -209,7 +209,7 @@
 		scene.add(sphere);
     clock = new THREE.Clock();
     animate();
-    effect.render(scene, camera);
+    //effect.render(scene, camera);
   }
 
 
@@ -234,7 +234,7 @@
   function render(dt) {
     /*if(initView)
       camera.lookAt(new THREE.Vector3(-50,-39.142,-50));*/
-    effect.render(scene, camera);
+    //effect.render(scene, camera);
   }
 
   function resize() {
@@ -245,7 +245,7 @@
     camera.updateProjectionMatrix();
 
     renderer.setSize(width, height);
-    effect.setSize(width, height);
+    //effect.setSize(width, height);
   }
 
   function hexToRgb(hex) { //TODO rewrite with vector output
